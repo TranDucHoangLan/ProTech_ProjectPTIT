@@ -1,128 +1,92 @@
 const db = require('../config/database');
-const axios = require('axios');
+const { validateProfile, scoreProfiles } = require('../utils/roommateMatching');
 
-// AI Service URL
-const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://localhost:8000';
+function decodeProfile(row) {
+    const lifestyle = typeof row.lifestyle_vector === 'string' ? JSON.parse(row.lifestyle_vector) : row.lifestyle_vector;
+    return { ...row, budget_min: Number(row.budget_min), budget_max: Number(row.budget_max), lifestyle_vector: lifestyle };
+}
 
-const roommateController = {
-    // Get current user's profile
+module.exports = {
     getMyProfile: async (req, res) => {
         try {
-            const userId = req.user.user_id;
-            const [rows] = await db.execute('SELECT * FROM roommate_profiles WHERE user_id = ?', [userId]);
-            if (rows.length === 0) {
-                return res.json({ profile: null });
-            }
-            res.json({ profile: rows[0] });
+            const [rows] = await db.execute('SELECT * FROM roommate_profiles WHERE user_id = ?', [req.user.user_id]);
+            res.json({ profile: rows[0] || null });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: error.message });
+            console.error('Roommate profile load failed:', error.message);
+            res.status(500).json({ message: 'Không tải được hồ sơ tìm bạn.' });
         }
     },
-
-    // Update or Create Profile
-    updateProfile: async (req, res) => {
+    updateStatus: async (req, res) => {
+        const status = req.body?.status;
+        if (!['active', 'hidden', 'matched'].includes(status)) {
+            return res.status(400).json({ message: 'Trạng thái tìm bạn không hợp lệ.' });
+        }
         try {
-            const userId = req.user.user_id;
-            const { budget_min, budget_max, lifestyle_vector, locations } = req.body;
-            // locations is stored in lifestyle_vector or separate? 
-            // The DB schema has lifestyle_vector as JSON. We can store locations there too or strict schema?
-            // Schema has `lifestyle_vector JSON`. 
-            // We will store { vector: [...], locations: [...] } inside this JSON column for flexibility 
-            // OR we should have used a separate column. 
-            // Let's pack everything into `lifestyle_vector` column for now as per schema or just update schema?
-            // Schema: `lifestyle_vector JSON`.
-            // Let's store: { "traits": [0,1,...], "locations": [{"lat":...}] } in the JSON column.
-
-            // Check if exists
-            const [rows] = await db.execute('SELECT profile_id FROM roommate_profiles WHERE user_id = ?', [userId]);
-
-            if (rows.length > 0) {
-                await db.execute(
-                    'UPDATE roommate_profiles SET budget_min = ?, budget_max = ?, lifestyle_vector = ? WHERE user_id = ?',
-                    [budget_min, budget_max, JSON.stringify(lifestyle_vector), userId]
-                );
-            } else {
-                await db.execute(
-                    'INSERT INTO roommate_profiles (user_id, budget_min, budget_max, lifestyle_vector) VALUES (?, ?, ?, ?)',
-                    [userId, budget_min, budget_max, JSON.stringify(lifestyle_vector)]
-                );
+            const [rows] = await db.execute('SELECT * FROM roommate_profiles WHERE user_id = ?', [req.user.user_id]);
+            if (!rows.length) return res.status(404).json({ message: 'Bạn chưa có hồ sơ tìm bạn. Vui lòng hoàn thiện thông tin trước.' });
+            if (status === 'active') {
+                const validation = validateProfile(decodeProfile(rows[0]));
+                if (validation) return res.status(400).json({ message: validation });
             }
-
-            res.json({ message: 'Profile updated' });
+            await db.execute('UPDATE roommate_profiles SET status = ? WHERE user_id = ?', [status, req.user.user_id]);
+            res.json({ status, message: 'Đã cập nhật trạng thái tìm bạn.' });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: error.message });
+            console.error('Roommate status update failed:', error.message);
+            res.status(500).json({ message: 'Không cập nhật được trạng thái tìm bạn.' });
         }
     },
-
-    // Find Matches
+    updateProfile: async (req, res) => {
+        const { budget_min, budget_max, lifestyle_vector } = req.body;
+        const validation = validateProfile({ budget_min, budget_max, lifestyle_vector });
+        if (validation) return res.status(400).json({ message: validation });
+        // Whitelist persisted fields; old vector profiles must complete the new form.
+        const v = lifestyle_vector;
+        const cleanVector = Object.fromEntries(['schema_version', 'gender', 'smoking', 'pets', 'cleanliness', 'shared_meals', 'sleep_start', 'sleep_end', 'wake_start', 'wake_end', 'radius_meters', 'move_in', 'lease_months'].map(key => [key, v[key]]));
+        cleanVector.area = { lat: v.area.lat, lng: v.area.lng, label: v.area.label };
+        try {
+            const [rows] = await db.execute('SELECT profile_id, status FROM roommate_profiles WHERE user_id = ?', [req.user.user_id]);
+            if (rows.length) await db.execute('UPDATE roommate_profiles SET budget_min = ?, budget_max = ?, lifestyle_vector = ? WHERE user_id = ?', [budget_min, budget_max, JSON.stringify(cleanVector), req.user.user_id]);
+            else await db.execute('INSERT INTO roommate_profiles (user_id, budget_min, budget_max, lifestyle_vector) VALUES (?, ?, ?, ?)', [req.user.user_id, budget_min, budget_max, JSON.stringify(cleanVector)]);
+            res.json({ message: 'Đã lưu hồ sơ tìm bạn.', status: rows.length ? rows[0].status : 'active' });
+        } catch (error) {
+            console.error('Roommate profile save failed:', error.message);
+            res.status(500).json({ message: 'Không lưu được hồ sơ tìm bạn.' });
+        }
+    },
     findMatches: async (req, res) => {
         try {
-            const userId = req.user.user_id;
-
-            // 1. Get my profile
-            const [myRows] = await db.execute('SELECT * FROM roommate_profiles WHERE user_id = ?', [userId]);
-            if (myRows.length === 0) {
-                return res.status(400).json({ message: 'Please create a profile first' });
-            }
-            const myProfile = myRows[0];
-            const myData = typeof myProfile.lifestyle_vector === 'string' ? JSON.parse(myProfile.lifestyle_vector) : myProfile.lifestyle_vector;
-
-            // 2. Get other active profiles
-            // Filter by budget overlap ideally, but for now get all active except self
+            const [own] = await db.execute('SELECT * FROM roommate_profiles WHERE user_id = ?', [req.user.user_id]);
+            if (!own.length) return res.status(400).json({ message: 'Vui lòng tạo hồ sơ tìm bạn trước.' });
+            if (own[0].status !== 'active') return res.status(409).json({ message: 'Hồ sơ đang tạm ẩn hoặc đã tìm được bạn. Vui lòng bật tìm bạn trở lại trước khi tìm kiếm.' });
+            const mine = decodeProfile(own[0]);
+            const validation = validateProfile(mine);
+            if (validation) return res.status(400).json({ message: validation });
             const [others] = await db.execute(
-                `SELECT p.*, u.full_name, u.avatar_url, u.date_of_birth 
-                 FROM roommate_profiles p 
-                 JOIN users u ON p.user_id = u.user_id 
-                 WHERE p.user_id != ? AND p.status = 'active'`,
-                [userId]
+                `SELECT p.user_id, p.budget_min, p.budget_max, p.lifestyle_vector, u.full_name, u.phone_number, u.email
+                 FROM roommate_profiles p JOIN users u ON p.user_id = u.user_id
+                 WHERE p.user_id != ? AND p.status = 'active' AND u.role = 'tenant'`,
+                [req.user.user_id]
             );
-
-            // 3. Call AI Service for each candidate
             const matches = [];
-
-            for (const candidate of others) {
-                const candidateData = typeof candidate.lifestyle_vector === 'string' ? JSON.parse(candidate.lifestyle_vector) : candidate.lifestyle_vector;
-
-                // Construct payload
-                const payload = {
-                    user1_id: userId,
-                    user2_id: candidate.user_id,
-                    user1_vector: myData.traits || [], // [smoking, pets, ...]
-                    user2_vector: candidateData.traits || [],
-                    user1_locations: myData.locations || [],
-                    user2_locations: candidateData.locations || [],
-                    weights: { lifestyle: 0.6, location: 0.4 } // Configurable
-                };
-
-                try {
-                    const aiRes = await axios.post(`${AI_SERVICE_URL}/matchmaking`, payload);
-
-                    // Only add if score is reasonable (e.g., > 0.4)
-                    if (aiRes.data.total_score > 0.4) {
-                        matches.push({
-                            ...candidate,
-                            match_score: aiRes.data.total_score,
-                            match_details: aiRes.data.details,
-                            match_reasoning: aiRes.data.reasoning
-                        });
-                    }
-                } catch (err) {
-                    console.error("AI Match Error for user " + candidate.user_id, err.message);
-                }
+            for (const row of others) {
+                let candidate;
+                try { candidate = decodeProfile(row); } catch { continue; }
+                const result = scoreProfiles(mine, candidate);
+                if (!result) continue;
+                matches.push({
+                    user_id: candidate.user_id, full_name: candidate.full_name,
+                    phone_number: typeof candidate.phone_number === 'string' ? candidate.phone_number.trim() || null : null,
+                    email: typeof candidate.email === 'string' ? candidate.email.trim() || null : null,
+                    budget_min: candidate.budget_min, budget_max: candidate.budget_max,
+                    match_score: result.score, match_details: result.details,
+                    match_reasoning: 'Điểm tương đồng theo hồ sơ; không phải xác suất sống chung thành công.',
+                });
             }
-
-            // 4. Sort by score
-            matches.sort((a, b) => b.match_score - a.match_score);
-
+            matches.sort((a, b) => b.match_score - a.match_score || a.user_id - b.user_id);
             res.json(matches);
-
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Server error' });
+            console.error('Roommate matching failed:', error.message);
+            res.status(500).json({ message: 'Không thể tìm bạn lúc này. Vui lòng thử lại.' });
         }
-    }
+    },
 };
-
-module.exports = roommateController;

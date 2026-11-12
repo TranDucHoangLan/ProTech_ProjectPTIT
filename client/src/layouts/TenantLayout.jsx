@@ -22,7 +22,7 @@ const TenantLayout = () => {
     const navItems = [
         { icon: Home, label: 'Tổng quan', path: '/tenant/dashboard' },
         { icon: Search, label: 'Tìm phòng', path: '/tenant/discover' },
-        { icon: Users, label: 'Tìm bạn', path: '/tenant/roommates' },
+        ...(user?.role === 'tenant' ? [{ icon: Users, label: 'Tìm bạn', path: '/tenant/roommates' }] : []),
         { icon: CreditCard, label: 'Hóa đơn', path: '/tenant/bills' },
         { icon: MessageSquare, label: 'AI Chat', path: '/tenant/chat' },
         { icon: Calendar, label: 'Lịch hẹn', path: '/tenant/bookings' },

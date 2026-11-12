@@ -269,7 +269,7 @@ const EditListing = () => {
                   </button>
                 ))}
               </div>
-              <button onClick={handleRenewListing} disabled={!listing?.listing_id || saving} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-700 disabled:opacity-50">
+              <button onClick={handleRenewListing} disabled={!listing?.listing_id || saving} className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800 disabled:opacity-50">
                 <RotateCw size={16} /> Gia hạn tin
               </button>
               {isPremium && (

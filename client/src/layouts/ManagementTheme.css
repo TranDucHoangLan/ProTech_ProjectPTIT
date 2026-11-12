@@ -1,0 +1,18 @@
+/* White/blue management theme aligned with tenant DiscoverRooms. */
+.management-shell {
+  --management-primary: #004ac6;
+  --management-primary-hover: #003b9e;
+  --management-soft: #eff4ff;
+  --management-border: #e2e8f0;
+  --color-admin: #004ac6;
+  --color-landlord: #004ac6;
+  background-color: #faf8ff;
+  color: #0c1a3a;
+}
+.management-shell .btn-primary { background-color: var(--management-primary); color: #fff; }
+.management-shell .btn-primary:hover { background-color: var(--management-primary-hover); opacity: 1; }
+.management-shell .btn-ghost, .management-shell .btn-action { border-color: var(--management-border); color: var(--management-primary); }
+.management-shell .btn-ghost:hover, .management-shell .btn-action:hover { background-color: var(--management-soft); border-color: #bfdbfe; color: var(--management-primary); }
+.management-shell :where(input, select, textarea):focus-visible { outline: 2px solid #93b8fb; outline-offset: 2px; }
+.management-shell :where(button, a):focus-visible { outline: 2px solid #93b8fb; outline-offset: 3px; }
+.management-shell .upload-zone:hover { border-color: var(--management-primary); }

@@ -1,366 +1,220 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { MapPin, Users, Sparkles, Check, Search, Heart, UserPlus, Zap, Loader } from 'lucide-react';
-import LocationPicker from '../../components/LocationPicker';
+import { Users, MapPin, Clock3, Info, Search, LoaderCircle, CalendarDays, ArrowLeft, Eye, EyeOff, CircleCheck, Phone, Mail } from 'lucide-react';
+import TopNavbar from '../../components/layout/TopNavbar';
+import RoommateAreaPicker from '../../components/RoommateAreaPicker';
 import api from '../../services/api';
-import axios from 'axios'; // Keep axios for Nominatim only
+import './RoommateMatching.css';
 
-const RoommateMatching = () => {
-    const { user } = useSelector((state) => state.auth);
-    const [step, setStep] = useState(1); // 1: Survey, 2: Results
-    const [loading, setLoading] = useState(false);
-
-    // Form State
-    const [profile, setProfile] = useState({
-        budget_min: 2000000,
-        budget_max: 5000000,
-        traits: [0, 0, 0, 0, 0], // [Smoking, Pets, Schedule, Guests, Cleanliness]
-        locations: [] // {lat, lng}
-    });
-
-    const [matches, setMatches] = useState([]);
-
-    // Fetch user's existing roommate profile on mount
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await api.get('/roommates/profile');
-                if (res.data && res.data.profile) {
-                    const savedProfile = res.data.profile;
-                    const vector = typeof savedProfile.lifestyle_vector === 'string'
-                        ? JSON.parse(savedProfile.lifestyle_vector)
-                        : savedProfile.lifestyle_vector;
-                    
-                    setProfile({
-                        budget_min: Number(savedProfile.budget_min) || 2000000,
-                        budget_max: Number(savedProfile.budget_max) || 5000000,
-                        traits: vector?.traits || [0, 0, 0, 0, 0],
-                        locations: vector?.locations || []
-                    });
-                }
-            } catch (error) {
-                console.error("Error fetching roommate profile:", error);
-            }
-        };
-        fetchProfile();
-    }, []);
-
-    // Location Search State
-    const [addressQuery, setAddressQuery] = useState('');
-    const [addressSuggestions, setAddressSuggestions] = useState([]);
-    const [isSearchingAddress, setIsSearchingAddress] = useState(false);
-
-    // Debounce Address Search
-    useEffect(() => {
-        const fetchAddress = async () => {
-            if (!addressQuery || addressQuery.length < 3) {
-                setAddressSuggestions([]);
-                return;
-            }
-
-            setIsSearchingAddress(true);
-            try {
-                const res = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressQuery)}&countrycodes=vn&limit=5&addressdetails=1`);
-                setAddressSuggestions(res.data || []);
-            } catch (error) {
-                console.error("Address fetch error:", error);
-            } finally {
-                setIsSearchingAddress(false);
-            }
-        };
-
-        const timeoutId = setTimeout(() => {
-            fetchAddress();
-        }, 500); // 500ms debounce
-
-        return () => clearTimeout(timeoutId);
-    }, [addressQuery]);
-
-    // Survey Options
-    const HABITS = [
-        { id: 0, label: 'Hút thuốc', left: 'Không bao giờ', right: 'Thường xuyên' },
-        { id: 1, label: 'Thú cưng', left: 'Không thích', right: 'Yêu động vật' },
-        { id: 2, label: 'Giờ giấc', left: 'Sáng sớm', right: 'Cú đêm' },
-        { id: 3, label: 'Khách khứa', left: 'Không thích', right: 'Thoải mái' },
-        { id: 4, label: 'Vệ sinh', left: 'Bình thường', right: 'Kỹ tính' }
-    ];
-
-    const handleTraitChange = (index, value) => {
-        const newTraits = [...profile.traits];
-        newTraits[index] = value;
-        setProfile({ ...profile, traits: newTraits });
-    };
-
-    const handleLocationSelect = (latlng) => {
-        // Limit to 3 locations
-        if (profile.locations.length >= 3) return;
-        setProfile({ ...profile, locations: [...profile.locations, latlng] });
-    };
-
-    const removeLocation = (index) => {
-        const newLocs = profile.locations.filter((_, i) => i !== index);
-        setProfile({ ...profile, locations: newLocs });
-    };
-
-    const handleFindMatches = async () => {
-        setLoading(true);
-        try {
-            // 1. Update Profile first using api service (auto-injects token)
-            await api.post('/roommates/profile', {
-                budget_min: profile.budget_min,
-                budget_max: profile.budget_max,
-                lifestyle_vector: { traits: profile.traits, locations: profile.locations },
-                locations: profile.locations
-            });
-
-            // 2. Get Matches
-            const res = await api.get('/roommates/matches');
-            setMatches(res.data);
-            setStep(2);
-        } catch (error) {
-            console.error(error);
-            alert("Lỗi khi tìm kiếm: " + (error.response?.data?.message || error.message));
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className="p-6 max-w-6xl mx-auto space-y-8">
-            <div className="flex justify-between items-end">
-                <div>
-                    <h1 className="text-3xl font-black text-gray-900 tracking-tight">Tìm Bạn Cùng Phòng</h1>
-                    <p className="text-gray-500 font-medium">Kết nối với người phù hợp dựa trên thói quen & vị trí</p>
-                </div>
-                <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-700 rounded-full text-xs font-bold uppercase tracking-widest">
-                    <Sparkles size={16} />
-                    <span>AI Powered Matching v2.0</span>
-                </div>
-            </div>
-
-            {step === 1 && (
-                <div className="grid lg:grid-cols-2 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    {/* Left: Lifestyle Survey */}
-                    <div className="space-y-6">
-                        <div className="glass p-8 rounded-[2rem] border border-white/50 shadow-xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none group-hover:bg-indigo-500/20 transition-all duration-700"></div>
-
-                            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                                <Users className="text-indigo-600" size={24} /> Khảo sát lối sống
-                            </h2>
-
-                            <div className="space-y-8">
-                                {HABITS.map((habit, idx) => (
-                                    <div key={habit.id} className="space-y-3">
-                                        <div className="flex justify-between text-xs font-bold text-gray-400 uppercase tracking-widest">
-                                            <span>{habit.left}</span>
-                                            <span className="text-gray-800">{habit.label}</span>
-                                            <span>{habit.right}</span>
-                                        </div>
-                                        <input
-                                            type="range"
-                                            min="0"
-                                            max="1"
-                                            step="0.25"
-                                            value={profile.traits[idx]}
-                                            onChange={(e) => handleTraitChange(idx, parseFloat(e.target.value))}
-                                            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600 hover:accent-indigo-500 transition-all"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-
-                            <div className="mt-8 pt-6 border-t border-gray-100">
-                                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 block">Ngân sách (VNĐ)</label>
-                                <div className="flex items-center gap-4">
-                                    <input
-                                        type="number"
-                                        value={profile.budget_min}
-                                        onChange={(e) => setProfile({ ...profile, budget_min: parseInt(e.target.value) })}
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none"
-                                        placeholder="Min"
-                                    />
-                                    <span className="text-gray-300">-</span>
-                                    <input
-                                        type="number"
-                                        value={profile.budget_max}
-                                        onChange={(e) => setProfile({ ...profile, budget_max: parseInt(e.target.value) })}
-                                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm font-bold text-gray-700 focus:ring-2 focus:ring-indigo-500 outline-none"
-                                        placeholder="Max"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right: Location & Action */}
-                    <div className="space-y-6 flex flex-col">
-                        <div className="glass p-8 rounded-[2rem] border border-white/50 shadow-xl flex-1 flex flex-col">
-                            <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                                <MapPin className="text-pink-600" size={24} /> Địa điểm thường đến
-                            </h2>
-                            <p className="text-sm text-gray-500 mb-4">Chọn tối đa 3 địa điểm (Công ty, Trường học...) để tìm người có cùng lộ trình.</p>
-
-                            <div className="flex-1 rounded-2xl overflow-hidden border border-gray-200 shadow-inner relative min-h-[300px] flex flex-col">
-                                {/* Search Bar Overlay */}
-                                <div className="absolute top-4 left-4 right-4 z-[1000]">
-                                    <div className="relative group shadow-2xl rounded-xl bg-white/50 backdrop-blur-sm">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            {isSearchingAddress ? (
-                                                <Loader className="h-5 w-5 text-indigo-500 animate-spin" />
-                                            ) : (
-                                                <Search className="h-5 w-5 text-gray-400 group-focus-within:text-indigo-600" />
-                                            )}
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={addressQuery}
-                                            onChange={(e) => setAddressQuery(e.target.value)}
-                                            className="block w-full pl-10 pr-10 py-3.5 border-0 rounded-xl leading-5 bg-white/80 focus:bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm font-bold shadow-lg transition-all"
-                                            placeholder="Nhập địa điểm (VD: Đại học Bách Khoa...)"
-                                        />
-                                        {addressQuery && (
-                                            <button
-                                                onClick={() => {
-                                                    setAddressQuery('');
-                                                    setAddressSuggestions([]);
-                                                }}
-                                                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                                            >
-                                                <Search className="h-4 w-4 rotate-45" /> {/* Close icon substitute */}
-                                            </button>
-                                        )}
-
-                                        {/* Autocomplete Dropdown */}
-                                        {addressSuggestions.length > 0 && (
-                                            <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in slide-in-from-top-2 max-h-60 overflow-y-auto">
-                                                {addressSuggestions.map((item, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        onClick={() => {
-                                                            handleLocationSelect({ lat: parseFloat(item.lat), lng: parseFloat(item.lon) });
-                                                            setAddressQuery(''); // Clear after selection or keep it?
-                                                            setAddressSuggestions([]);
-                                                        }}
-                                                        className="px-4 py-3 hover:bg-indigo-50 cursor-pointer border-b border-gray-50 last:border-0 flex items-start gap-3 transition-colors text-left"
-                                                    >
-                                                        <div className="mt-1 min-w-[16px]">
-                                                            <MapPin size={16} className="text-gray-400" />
-                                                        </div>
-                                                        <div>
-                                                            <div className="font-bold text-gray-800 text-sm line-clamp-1">{item.name || item.display_name.split(',')[0]}</div>
-                                                            <div className="text-xs text-gray-500 line-clamp-2">{item.display_name}</div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                                <div className="px-2 py-1 bg-gray-50 text-[10px] text-center text-gray-400 uppercase tracking-widest font-bold">
-                                                    Powered by OpenStreetMap
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <LocationPicker
-                                    position={profile.locations.length > 0 ? profile.locations[profile.locations.length - 1] : null}
-                                    onLocationChange={handleLocationSelect}
-                                    height="100%"
-                                />
-
-                                <div className="absolute bottom-4 right-4 space-y-2 pointer-events-none flex flex-col items-end">
-                                    {profile.locations.map((loc, i) => (
-                                        <div key={i} className="bg-white/90 backdrop-blur px-3 py-2 rounded-xl shadow-lg flex items-center gap-2 pointer-events-auto animate-in slide-in-from-right-2 border border-gray-100/50">
-                                            <div className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
-                                            <span className="text-xs font-bold text-gray-700">Vị trí {i + 1}</span>
-                                            <button onClick={() => removeLocation(i)} className="text-gray-400 hover:text-red-500 transition-colors"><UserPlus size={14} className="rotate-45" /></button>
-                                        </div>
-                                    ))}
-                                    {profile.locations.length === 0 && (
-                                        <div className="bg-black/70 text-white px-4 py-2 rounded-xl text-xs font-bold backdrop-blur animate-pulse">
-                                            Tìm kiếm hoặc bấm vào bản đồ để chọn
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        <button
-                            onClick={handleFindMatches}
-                            disabled={loading}
-                            className={`w-full py-5 rounded-2xl font-black text-lg uppercase tracking-widest shadow-2xl transition-all active:scale-95 flex items-center justify-center gap-3 ${loading ? 'bg-gray-100 text-gray-400 curson-not-allowed' : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-indigo-500/30 hover:to-purple-700'
-                                }`}
-                        >
-                            {loading ? <Loader className="animate-spin" /> : <Search />}
-                            {loading ? 'AI đang phân tích...' : 'Tìm người phù hợp'}
-                        </button>
-                    </div>
-                </div>
-            )}
-
-            {step === 2 && (
-                <div className="animate-in fade-in zoom-in duration-300">
-                    <button onClick={() => setStep(1)} className="mb-6 flex items-center text-gray-500 hover:text-indigo-600 font-bold text-sm">
-                        Quay lại chỉnh sửa
-                    </button>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {matches.length === 0 ? (
-                            <div className="col-span-full text-center py-20">
-                                <p className="text-gray-400 text-lg">Chưa tìm thấy người phù hợp nào :(</p>
-                            </div>
-                        ) : (
-                            matches.map((match) => (
-                                <div key={match.user_id} className="glass p-6 rounded-[2rem] border border-white/60 hover:border-indigo-200 transition-all hover:shadow-2xl group relative overflow-hidden">
-                                    {/* Compatibility Badge */}
-                                    <div className="absolute top-4 right-4 bg-green-100 text-green-700 font-black text-xs px-3 py-1.5 rounded-full uppercase tracking-widest border border-green-200 shadow-sm z-10">
-                                        {Math.round(match.match_score * 100)}% Hợp nhau
-                                    </div>
-
-                                    <div className="flex flex-col items-center mb-6 relative z-10">
-                                        <div className="w-24 h-24 rounded-full border-4 border-white shadow-xl overflow-hidden mb-4">
-                                            <img src={match.avatar_url || `https://ui-avatars.com/api/?name=${match.full_name}&background=random`} alt={match.full_name} className="w-full h-full object-cover" />
-                                        </div>
-                                        <h3 className="text-xl font-bold text-gray-900">{match.full_name}</h3>
-                                        <p className="text-sm text-gray-500">{new Date().getFullYear() - new Date(match.date_of_birth).getFullYear()} tuổi</p>
-                                    </div>
-
-                                    <div className="space-y-4 mb-6 relative z-10">
-                                        <div className="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
-                                            <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1">
-                                                <Zap size={12} /> AI Insight
-                                            </p>
-                                            <p className="text-sm text-indigo-900 font-medium leading-relaxed">
-                                                "{match.match_reasoning}"
-                                            </p>
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-3 text-center">
-                                            <div className="p-3 bg-gray-50 rounded-xl">
-                                                <p className="text-[10px] text-gray-400 uppercase">Ngân sách</p>
-                                                <p className="font-bold text-gray-700 text-xs">
-                                                    {match.budget_min / 1000000} - {match.budget_max / 1000000}tr
-                                                </p>
-                                            </div>
-                                            <div className="p-3 bg-gray-50 rounded-xl">
-                                                <p className="text-[10px] text-gray-400 uppercase">Khoảng cách</p>
-                                                <p className="font-bold text-gray-700 text-xs">
-                                                    {match.match_details.min_distance_km ? `${match.match_details.min_distance_km} km` : 'N/A'}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <button className="w-full py-3 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 hover:text-indigo-600 transition-colors shadow-sm active:scale-95">
-                                        Xem hồ sơ chi tiết
-                                    </button>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-            )}
-        </div>
-    );
+const navigation = [
+  ['1', 'Phòng trọ'], ['3', 'Nhà nguyên căn'], ['2', 'Căn hộ chung cư'],
+  ['8', 'Căn hộ mini'], ['12', 'Căn hộ dịch vụ'], ['5', 'Ở ghép'], ['4', 'Mặt bằng'],
+  ['pricing', 'Bảng giá dịch vụ'], ['roommates', 'Tìm bạn cùng phòng'],
+];
+const defaults = {
+  schema_version: 2, gender: '', smoking: '', pets: '', cleanliness: 2, shared_meals: 2,
+  sleep_start: '23:00', sleep_end: '01:00', wake_start: '06:00', wake_end: '08:00',
+  area: null, radius_meters: 3000, move_in: '', lease_months: 6,
 };
+const labels = { location: 'Địa điểm', budget: 'Tài chính', schedule: 'Giờ giấc', habits: 'Lối sống', duration: 'Thời gian thuê' };
 
-export default RoommateMatching;
+const searchStatuses = [
+  { id: 'active', label: 'Đang tìm', icon: Eye, description: 'Hồ sơ xuất hiện trong kết quả tìm bạn của người khác.' },
+  { id: 'hidden', label: 'Tạm ẩn', icon: EyeOff, description: 'Hồ sơ được giữ lại và không xuất hiện trong các lần tìm kiếm mới.' },
+  { id: 'matched', label: 'Đã tìm được bạn', icon: CircleCheck, description: 'Đã ngừng tìm bạn. Hồ sơ được giữ lại để bạn có thể tìm lại khi cần.' },
+];
+
+function MatchContact({ match }) {
+  const phone = typeof match.phone_number === 'string' ? match.phone_number.trim() : '';
+  const email = typeof match.email === 'string' ? match.email.trim() : '';
+  return <section className="rm-contact" aria-label={`Thông tin liên hệ của ${match.full_name || 'người phù hợp'}`}>
+    <h4>Thông tin liên hệ</h4>
+    <div className="rm-contact-rows">
+      <div><Phone size={16} aria-hidden="true" /><span className="rm-contact-label">Số điện thoại</span>
+        <span className={phone ? 'rm-contact-value' : 'rm-contact-missing'}>{phone || 'Chưa cập nhật'}</span>
+      </div>
+      <div><Mail size={16} aria-hidden="true" /><span className="rm-contact-label">Email</span>
+        <span className={email ? 'rm-contact-value' : 'rm-contact-missing'}>{email || 'Chưa cập nhật'}</span>
+      </div>
+    </div>
+  </section>;
+}
+
+function RuleField({ name, title, subject, value, onChange }) {
+  return <fieldset className="rm-rule"><legend>{title} <span aria-label="bắt buộc">*</span></legend>
+    {[
+      ['allowed_has', title === 'Thú cưng' ? 'Được — Tôi có thú cưng' : `Được — Tôi có ${subject}`],
+      ['allowed_none', `Được — Tôi không ${subject}`],
+      ['not_allowed', 'Không được'],
+    ].map(([id, text]) => <label key={id} className={value === id ? 'selected' : ''}>
+      <input required type="radio" name={name} value={id} checked={value === id} onChange={() => onChange(id)} />
+      <span>{text}</span>
+    </label>)}
+  </fieldset>;
+}
+
+function TimeRange({ title, prefix, values, onChange }) {
+  const overnight = values[`${prefix}_end`] < values[`${prefix}_start`];
+  return <div className="rm-time-row"><span>{title}</span><div className="rm-range">
+    <input aria-label={`${title} từ`} required type="time" value={values[`${prefix}_start`]} onChange={e => onChange(`${prefix}_start`, e.target.value)} />
+    <span>–</span><input aria-label={`${title} đến`} required type="time" value={values[`${prefix}_end`]} onChange={e => onChange(`${prefix}_end`, e.target.value)} />
+  </div>{overnight && <small>Hôm sau</small>}</div>;
+}
+
+export default function RoommateMatching() {
+  const { user } = useSelector(state => state.auth);
+  const [values, setValues] = useState(defaults);
+  const [budget, setBudget] = useState({ min: 2000000, max: 3000000 });
+  const [loadingProfile, setLoadingProfile] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [matches, setMatches] = useState(null);
+  const [profileStatus, setProfileStatus] = useState(null);
+  const [statusUpdating, setStatusUpdating] = useState(false);
+  const [profileLoadFailed, setProfileLoadFailed] = useState(false);
+  const [statusNotice, setStatusNotice] = useState('');
+  const currentStatus = searchStatuses.find(item => item.id === profileStatus);
+  const change = (key, value) => setValues(previous => ({ ...previous, [key]: value }));
+
+  useEffect(() => {
+    let active = true;
+    api.get('/roommates/profile').then(({ data }) => {
+      if (!active || !data.profile) return;
+      const p = data.profile;
+      setProfileStatus(p.status);
+      const vector = typeof p.lifestyle_vector === 'string' ? JSON.parse(p.lifestyle_vector) : p.lifestyle_vector;
+      // Old slider profiles cannot be mapped safely to the new mandatory rules.
+      if (vector?.schema_version === 2) setValues({ ...defaults, ...vector });
+      setBudget({ min: Number(p.budget_min) || 2000000, max: Number(p.budget_max) || 3000000 });
+    }).catch(() => { if (active) { setProfileLoadFailed(true); setError('Không tải được hồ sơ. Vui lòng tải lại trang trước khi lưu thay đổi.'); } })
+      .finally(() => { if (active) setLoadingProfile(false); });
+    return () => { active = false; };
+  }, []);
+
+  const updateSearchStatus = async status => {
+    if (statusUpdating || submitting || status === profileStatus) return;
+    setStatusUpdating(true);
+    setStatusNotice('');
+    setError('');
+    try {
+      const { data } = await api.patch('/roommates/profile/status', { status });
+      setProfileStatus(data.status);
+      setMatches(null);
+      setStatusNotice(data.status === 'active'
+        ? 'Đã bật tìm bạn trở lại. Hồ sơ của bạn có thể được gợi ý cho người khác.'
+        : data.status === 'matched'
+          ? 'Đã ghi nhận bạn tìm được người ở cùng. Hồ sơ sẽ không xuất hiện trong các lần tìm kiếm mới.'
+          : 'Đã tạm ẩn hồ sơ khỏi các lần tìm kiếm mới.');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Không cập nhật được trạng thái. Vui lòng thử lại.');
+    } finally { setStatusUpdating(false); }
+  };
+
+  const submit = async event => {
+    event.preventDefault();
+    if (profileLoadFailed || statusUpdating || submitting) return;
+    setError('');
+    if (!values.area) return setError('Bạn hãy chọn một vị trí trên bản đồ.');
+    if (!(Number(budget.min) > 0 && Number(budget.max) > Number(budget.min))) return setError('Ngân sách tối đa phải lớn hơn ngân sách tối thiểu.');
+    if (Number(budget.min) % 1000 !== 0 || Number(budget.max) % 1000 !== 0) return setError('Ngân sách phải là bội số của 1.000 đồng.');
+    if (values.sleep_start === values.sleep_end || values.wake_start === values.wake_end) return setError('Hai đầu của mỗi khoảng giờ phải khác nhau.');
+    setSubmitting(true);
+    try {
+      const saved = await api.post('/roommates/profile', { budget_min: Number(budget.min), budget_max: Number(budget.max), lifestyle_vector: values });
+      setProfileStatus(saved.data.status);
+      if (saved.data.status !== 'active') {
+        setStatusNotice('Đã lưu thông tin. Hồ sơ vẫn được ẩn cho đến khi bạn chọn Tìm bạn trở lại.');
+        return;
+      }
+      const { data } = await api.get('/roommates/matches');
+      setMatches(data);
+    } catch (err) { setError(err.response?.data?.message || 'Không thể tìm bạn lúc này. Vui lòng thử lại.'); }
+    finally { setSubmitting(false); }
+  };
+
+  return <div className="roommate-page">
+    <TopNavbar user={user} />
+    <nav className="rm-navigation" aria-label="Danh mục phòng">
+      <div>{navigation.map(([id, title]) => <Link key={id} aria-current={id === 'roommates' ? 'page' : undefined}
+        to={id === 'roommates' ? '/tenant/roommates' : id === 'pricing' ? '/services-price' : `/tenant/discover?category=${id}`}>{title}</Link>)}</div>
+    </nav>
+    <main className="rm-main">
+      <div className="rm-heading"><div><h1>Tìm bạn cùng phòng</h1><p>Tìm người hợp lối sống, cùng khu vực bạn muốn ở.</p></div>
+        <span className="rm-badge"><Users size={16} /> Chỉ ghép người cùng giới tính</span></div>
+      {!loadingProfile && !profileLoadFailed && <section className="rm-status-panel" aria-labelledby="rm-status-title">
+        <div className="rm-status-heading"><div><h2 id="rm-status-title">Trạng thái tìm bạn</h2>
+          <p>{currentStatus?.description || 'Bạn chưa đăng hồ sơ. Hoàn thiện thông tin và nhấn tìm bạn để bắt đầu.'}</p></div>
+          {profileStatus && <span className={`rm-status-pill rm-status-${profileStatus}`}><span />{currentStatus?.label}</span>}
+        </div>
+        {profileStatus && <>
+          <div className="rm-status-options" role="group" aria-label="Đổi trạng thái tìm bạn">
+            {searchStatuses.map(item => {
+              const Icon = item.icon;
+              return <button type="button" key={item.id} aria-pressed={profileStatus === item.id}
+                disabled={statusUpdating || submitting || profileStatus === item.id}
+                onClick={() => updateSearchStatus(item.id)}>
+                <Icon size={18} /><span>{item.label}</span>
+                {profileStatus === item.id && <CircleCheck size={15} className="rm-status-check" />}
+              </button>;
+            })}
+          </div>
+          {profileStatus !== 'active' && <div className="rm-status-resume"><span>Thông tin và tiêu chí tìm bạn vẫn được giữ nguyên.</span>
+            <button type="button" disabled={statusUpdating || submitting} onClick={() => updateSearchStatus('active')}>
+              {statusUpdating ? <LoaderCircle size={16} className="animate-spin" /> : <Search size={16} />} Tìm bạn trở lại
+            </button></div>}
+        </>}
+        <div className="rm-status-feedback" role="status" aria-live="polite">{statusUpdating ? 'Đang cập nhật trạng thái…' : statusNotice}</div>
+      </section>}
+      {error && <div className="rm-error rm-page-error" role="alert">{error}</div>}
+      {loadingProfile ? <div className="rm-loading" role="status"><LoaderCircle className="animate-spin" /> Đang tải hồ sơ…</div> : matches !== null ?
+        <section className="rm-results" aria-live="polite">
+          <button className="rm-back" onClick={() => setMatches(null)}><ArrowLeft size={17} /> Điều chỉnh tiêu chí</button>
+          <h2>{matches.length ? `${matches.length} người phù hợp với bạn` : 'Chưa tìm thấy người phù hợp'}</h2>
+          <p>Chỉ hiển thị người cùng giới tính, khớp điều kiện hút thuốc và thú cưng, có khu vực và khoảng ngân sách giao nhau.</p>
+          {matches.length === 0 && <div className="rm-empty"><Users size={38} /><h3>Chưa có hồ sơ đáp ứng tiêu chí</h3><p>Bạn có thể điều chỉnh khu vực hoặc ngân sách và tìm lại sau.</p></div>}
+          <div className="rm-result-grid">{matches.map(match => <article className="rm-match" key={match.user_id}>
+            <div className="rm-match-top"><div className="rm-avatar">{match.full_name?.slice(0, 1) || 'B'}</div><div><h3>{match.full_name}</h3><span>Cùng giới tính · Khớp điều kiện bắt buộc</span></div><strong>{Math.round(match.match_score)}<small>/100</small></strong></div>
+            <p className="rm-match-budget">{new Intl.NumberFormat('vi-VN').format(match.budget_min)} – {new Intl.NumberFormat('vi-VN').format(match.budget_max)} đ/người/tháng</p>
+            <div className="rm-scores">{Object.entries(match.match_details || {}).map(([key, score]) => labels[key] && <div key={key}><span>{labels[key]}</span><meter min="0" max="100" value={score} /><b>{Math.round(score)}</b></div>)}</div>
+            <p className="rm-match-reason">{match.match_reasoning}</p>
+            <MatchContact match={match} />
+          </article>)}</div>
+        </section> :
+        <form className="rm-grid" onSubmit={submit}>
+          <section className="rm-panel"><h2><Users /> Lối sống & ngân sách</h2>
+            <label className="rm-field rm-gender">Giới tính của bạn<select required value={values.gender} onChange={e => change('gender', e.target.value)}>
+              <option value="">Chọn giới tính</option><option value="male">Nam</option><option value="female">Nữ</option><option value="other">Khác</option>
+            </select><small>Chỉ tìm người có cùng lựa chọn giới tính với bạn.</small></label>
+            <div className="rm-rules"><RuleField name="smoking" title="Hút thuốc" subject="hút thuốc" value={values.smoking} onChange={v => change('smoking', v)} />
+              <RuleField name="pets" title="Thú cưng" subject="có thú cưng" value={values.pets} onChange={v => change('pets', v)} /></div>
+            <div className="rm-info"><Info size={18} /><span>Chỉ gợi ý người đáp ứng cả hai điều kiện.</span></div>
+            <div className="rm-two"><label className="rm-field">Mức độ gọn gàng<select value={values.cleanliness} onChange={e => change('cleanliness', Number(e.target.value))}>
+              {['Rất gọn gàng', 'Khá gọn gàng', 'Bình thường', 'Khá thoải mái'].map((text, i) => <option value={i + 1} key={text}>{text}</option>)}
+            </select></label><label className="rm-field">Ăn uống chung<select value={values.shared_meals} onChange={e => change('shared_meals', Number(e.target.value))}>
+              {['Ăn riêng', 'Thỉnh thoảng ăn chung', 'Thường xuyên ăn chung'].map((text, i) => <option value={i + 1} key={text}>{text}</option>)}
+            </select></label></div>
+            <fieldset className="rm-budget"><legend>Ngân sách mỗi người / tháng (VNĐ)</legend><div className="rm-range">
+              <input aria-label="Ngân sách tối thiểu" type="number" min="1000" step="1000" required value={budget.min} onChange={e => setBudget({ ...budget, min: e.target.value })} />
+              <span>–</span><input aria-label="Ngân sách tối đa" type="number" min="1000" step="1000" required value={budget.max} onChange={e => setBudget({ ...budget, max: e.target.value })} />
+            </div><small>Tiền thuê phòng, chưa bao gồm điện, nước và phí dịch vụ.</small></fieldset>
+            <div className="rm-schedule"><h2><Clock3 /> Giờ giấc sinh hoạt</h2><TimeRange title="Giờ ngủ" prefix="sleep" values={values} onChange={change} /><TimeRange title="Giờ dậy" prefix="wake" values={values} onChange={change} /></div>
+          </section>
+          <div className="rm-right"><section className="rm-panel"><h2><MapPin /> Khu vực muốn ở</h2><p className="rm-description">Chọn một điểm trên bản đồ và bán kính tìm phòng.</p>
+            <RoommateAreaPicker area={values.area} radius={values.radius_meters} onChange={area => change('area', area)} />
+            <div className="rm-radius"><label htmlFor="rm-radius">Bán kính tìm phòng <strong>{values.radius_meters / 1000} km</strong></label>
+              <input id="rm-radius" type="range" min="500" max="10000" step="500" value={values.radius_meters} onChange={e => change('radius_meters', Number(e.target.value))} />
+              <div className="rm-radius-options">{[1000, 3000, 5000, 10000].map(r => <button key={r} type="button" aria-pressed={values.radius_meters === r} onClick={() => change('radius_meters', r)}>{r / 1000} km</button>)}</div>
+            </div>
+            <div className="rm-duration"><h2><CalendarDays /> Thời gian thuê</h2><div className="rm-two"><label className="rm-field">Ngày chuyển vào<input required type="date" value={values.move_in} onChange={e => change('move_in', e.target.value)} /></label>
+              <label className="rm-field">Thời hạn thuê<select value={values.lease_months} onChange={e => change('lease_months', Number(e.target.value))}>{[1, 3, 6, 12, 24].map(n => <option value={n} key={n}>{n} tháng</option>)}</select></label></div></div>
+          </section>
+          <button className="rm-submit" type="submit" disabled={submitting || statusUpdating || profileLoadFailed}>{submitting ? <LoaderCircle className="animate-spin" size={21} /> : <Search size={21} />}{submitting ? 'Đang xử lý…' : profileStatus && profileStatus !== 'active' ? 'Lưu thông tin' : 'Tìm bạn cùng phòng'}</button>
+          <p className="rm-footnote">{profileStatus && profileStatus !== 'active'
+            ? 'Lưu thông tin không bật lại tìm kiếm. Chọn “Tìm bạn trở lại” khi bạn sẵn sàng.'
+            : 'Kết quả được xếp theo độ tương đồng trên thang 100.'}</p>
+          </div>
+        </form>}
+    </main>
+  </div>;
+}

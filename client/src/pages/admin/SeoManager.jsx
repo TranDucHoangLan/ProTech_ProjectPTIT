@@ -128,7 +128,7 @@ const SeoManager = () => {
                         <div className="space-y-2">
                             {configs.map(item => (
                                 <button key={item.id} onClick={() => setFormData(item)}
-                                    className={`w-full text-left p-3 border transition-all ${formData.id === item.id ? 'border-black bg-black text-white' : 'border-gray-100 hover:border-gray-300 bg-white'}`}>
+                                    className={`w-full text-left p-3 border transition-all ${formData.id === item.id ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-100 hover:border-gray-300 bg-white'}`}>
                                     <div className={`font-black text-xs uppercase tracking-widest ${formData.id === item.id ? 'text-white' : 'text-black'}`}>{item.route_path}</div>
                                     <div className={`text-xs truncate mt-0.5 ${formData.id === item.id ? 'text-white/60' : 'text-gray-400'}`}>{item.meta_title}</div>
                                 </button>

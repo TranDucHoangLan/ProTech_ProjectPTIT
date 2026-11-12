@@ -191,7 +191,7 @@ const LandlordContractDetail = () => {
                             </div>
                             <a href="#signing-section"
                                 className="px-4 py-2 rounded-lg text-sm font-bold text-white flex-shrink-0 transition-all hover:opacity-90"
-                                style={{ backgroundColor: '#0f6e56' }}>
+                                style={{ backgroundColor: '#004ac6' }}>
                                 ✍️ Ký ngay
                             </a>
                         </div>
@@ -554,7 +554,7 @@ const LandlordContractDetail = () => {
                         {/* Signing Section */}
                         {isSignedByTenant && (
                             <div id="signing-section" className="rounded-2xl shadow-lg p-6 border-2"
-                                style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)', borderColor: '#0f6e56' }}>
+                                style={{ background: 'linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)', borderColor: '#004ac6' }}>
                                 <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                                     <PenTool className="text-green-700" size={20} />
                                     Xác nhận và Ký hợp đồng
@@ -603,7 +603,7 @@ const LandlordContractDetail = () => {
                                                 ? 'shadow-lg hover:opacity-90 active:scale-95'
                                                 : 'opacity-50 cursor-not-allowed'
                                         }`}
-                                        style={{ backgroundColor: canSign ? '#0f6e56' : '#9ca3af' }}
+                                        style={{ backgroundColor: canSign ? '#004ac6' : '#9ca3af' }}
                                     >
                                         {isSigning ? (
                                             <><Loader className="animate-spin" size={20} /> Đang xử lý...</>

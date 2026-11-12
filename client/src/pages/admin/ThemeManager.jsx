@@ -81,7 +81,7 @@ const ThemeManager = () => {
                                         <button 
                                             key={item.id}
                                             onClick={() => setTheme({...theme, sidebar_layout: item.id})}
-                                            className={`p-4 border-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${theme.sidebar_layout === item.id ? 'border-black bg-black text-white' : 'border-gray-100 text-gray-400 hover:border-gray-200'}`}
+                                            className={`p-4 border-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${theme.sidebar_layout === item.id ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-100 text-gray-400 hover:border-gray-200'}`}
                                         >
                                             {item.label}
                                         </button>
@@ -96,7 +96,7 @@ const ThemeManager = () => {
                                         <button 
                                             key={num}
                                             onClick={() => setTheme({...theme, grid_columns: num})}
-                                            className={`w-14 h-14 flex items-center justify-center border-2 rounded-2xl font-bold text-lg transition-all ${theme.grid_columns === num ? 'border-black bg-black text-white' : 'border-gray-100 text-gray-400'}`}
+                                            className={`w-14 h-14 flex items-center justify-center border-2 rounded-2xl font-bold text-lg transition-all ${theme.grid_columns === num ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-100 text-gray-400'}`}
                                         >
                                             {num}
                                         </button>

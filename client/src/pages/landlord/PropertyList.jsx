@@ -14,11 +14,11 @@ import { toast } from 'react-hot-toast';
 /* ── Stat Card ── */
 const StatCard = ({ icon: Icon, iconBg, iconColor, label, value, subtitle }) => (
     <div
-        className="rounded-[14px] p-4 flex flex-col justify-between border hover:border-[#0f6e56]/30 transition-colors"
-        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+        className="rounded-[14px] p-4 flex flex-col justify-between border hover:border-[#004ac6]/30 transition-colors"
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
     >
         <div className="flex justify-between items-start">
-            <span className="text-sm font-semibold text-[#3f4944]">{label}</span>
+            <span className="text-sm font-semibold text-[#434655]">{label}</span>
             <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
                 style={{ backgroundColor: iconBg }}
@@ -27,8 +27,8 @@ const StatCard = ({ icon: Icon, iconBg, iconColor, label, value, subtitle }) => 
             </div>
         </div>
         <div className="mt-2">
-            <p className="text-[24px] font-semibold text-[#181d1a] leading-7">{value}</p>
-            {subtitle && <p className="text-[11.5px] text-[#6f7a74] mt-1">{subtitle}</p>}
+            <p className="text-[24px] font-semibold text-[#0c1a3a] leading-7">{value}</p>
+            {subtitle && <p className="text-[11.5px] text-[#737686] mt-1">{subtitle}</p>}
         </div>
     </div>
 );
@@ -39,8 +39,8 @@ const FilterTab = ({ active, label, count, onClick }) => (
         onClick={onClick}
         className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
             active
-                ? 'bg-white text-[#181d1a] shadow-sm'
-                : 'text-[#3f4944] hover:bg-white/50'
+                ? 'bg-white text-[#0c1a3a] shadow-sm'
+                : 'text-[#434655] hover:bg-white/50'
         }`}
     >
         {label} {count !== undefined && <span className="ml-1 opacity-60">({count})</span>}
@@ -50,21 +50,21 @@ const FilterTab = ({ active, label, count, onClick }) => (
 /* ── Building Row ── */
 const BuildingRow = ({ building, onEdit, onDelete, onView }) => (
     <tr
-        className="border-b hover:bg-[#f9fbfc] transition-colors cursor-pointer group"
-        style={{ borderColor: '#bec9c3' }}
+        className="border-b hover:bg-[#faf8ff] transition-colors cursor-pointer group"
+        style={{ borderColor: '#e2e8f0' }}
         onClick={() => onView(building)}
     >
         <td className="px-6 py-4">
             <div className="flex items-center gap-3">
                 <div
                     className="w-12 h-12 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: '#ebefeb' }}
+                    style={{ backgroundColor: '#f1f4fb' }}
                 >
-                    <Building2 style={{ color: '#0f6e56', width: 20, height: 20 }} />
+                    <Building2 style={{ color: '#004ac6', width: 20, height: 20 }} />
                 </div>
                 <div>
-                    <p className="font-bold text-[#181d1a]">{building.name}</p>
-                    <p className="text-[11.5px] text-[#6f7a74] flex items-center gap-1">
+                    <p className="font-bold text-[#0c1a3a]">{building.name}</p>
+                    <p className="text-[11.5px] text-[#737686] flex items-center gap-1">
                         <MapPin style={{ width: 10, height: 10 }} />
                         {building.address}
                     </p>
@@ -72,20 +72,20 @@ const BuildingRow = ({ building, onEdit, onDelete, onView }) => (
             </div>
         </td>
         <td className="px-6 py-4">
-            <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold bg-[#e6f7f2] text-[#005440] capitalize">
+            <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold bg-[#eff4ff] text-[#003b9e] capitalize">
                 {building.type === 'apartment' ? 'Chung cư mini' : building.type === 'house' ? 'Nhà nguyên căn' : 'Phòng trọ lẻ'}
             </span>
         </td>
         <td className="px-6 py-4">
-            <span className="text-[14px] font-semibold text-[#181d1a]">{building.total_floors || 1}</span>
-            <span className="text-[11.5px] text-[#6f7a74] ml-1">tầng</span>
+            <span className="text-[14px] font-semibold text-[#0c1a3a]">{building.total_floors || 1}</span>
+            <span className="text-[11.5px] text-[#737686] ml-1">tầng</span>
         </td>
         <td className="px-6 py-4">
             <div className="flex flex-col gap-1">
-                <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold bg-[#e6f7f2] text-[#005440] inline-flex w-fit">
+                <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold bg-[#eff4ff] text-[#003b9e] inline-flex w-fit">
                     {building.room_count || 0} phòng
                 </span>
-                <span className="text-[11px] text-[#6f7a74]">
+                <span className="text-[11px] text-[#737686]">
                     Trống: {building.available_count || 0} · Đã thuê: {building.occupied_count || 0}
                 </span>
             </div>
@@ -104,17 +104,17 @@ const BuildingRow = ({ building, onEdit, onDelete, onView }) => (
             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                     onClick={(e) => { e.stopPropagation(); onView(building); }}
-                    className="p-2 rounded-lg hover:bg-[#ebefeb] transition-colors"
+                    className="p-2 rounded-lg hover:bg-[#f1f4fb] transition-colors"
                     title="Xem chi tiết"
                 >
-                    <Eye style={{ color: '#6f7a74', width: 16, height: 16 }} />
+                    <Eye style={{ color: '#737686', width: 16, height: 16 }} />
                 </button>
                 <button
                     onClick={(e) => { e.stopPropagation(); onEdit(building); }}
-                    className="p-2 rounded-lg hover:bg-[#ebefeb] transition-colors"
+                    className="p-2 rounded-lg hover:bg-[#f1f4fb] transition-colors"
                     title="Chỉnh sửa"
                 >
-                    <Pencil style={{ color: '#6f7a74', width: 16, height: 16 }} />
+                    <Pencil style={{ color: '#737686', width: 16, height: 16 }} />
                 </button>
                 <button
                     onClick={(e) => { e.stopPropagation(); onDelete(building); }}
@@ -131,7 +131,7 @@ const BuildingRow = ({ building, onEdit, onDelete, onView }) => (
 /* ── Field Component ── */
 const Field = ({ label, children }) => (
     <div>
-        <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">{label}</label>
+        <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">{label}</label>
         {children}
     </div>
 );
@@ -147,7 +147,7 @@ const BuildingModal = ({
     if (!isOpen) return null;
 
     const inputCls = "w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none transition-all";
-    const inputBorder = { borderColor: '#bec9c3', backgroundColor: '#ffffff' };
+    const inputBorder = { borderColor: '#e2e8f0', backgroundColor: '#ffffff' };
     const selectStyle = {
         ...inputBorder,
         appearance: 'none',
@@ -168,14 +168,14 @@ const BuildingModal = ({
                 {/* Header */}
                 <div
                     className="flex items-center justify-between px-6 py-4 border-b"
-                    style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}
+                    style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}
                 >
                     <div>
-                        <p className="text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Mới</p>
-                        <h2 className="text-[20px] font-semibold text-[#181d1a]">Thêm Tòa nhà</h2>
+                        <p className="text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Mới</p>
+                        <h2 className="text-[20px] font-semibold text-[#0c1a3a]">Thêm Tòa nhà</h2>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-[#ebefeb] rounded-lg transition-colors">
-                        <X style={{ color: '#6f7a74', width: 20, height: 20 }} />
+                    <button onClick={onClose} className="p-2 hover:bg-[#f1f4fb] rounded-lg transition-colors">
+                        <X style={{ color: '#737686', width: 20, height: 20 }} />
                     </button>
                 </div>
 
@@ -194,9 +194,9 @@ const BuildingModal = ({
                     </Field>
 
                     {/* Address */}
-                    <div className="p-4 rounded-lg space-y-3" style={{ backgroundColor: '#f7faf6' }}>
-                        <p className="text-[14px] font-semibold text-[#181d1a] flex items-center gap-2">
-                            <MapPin style={{ width: 14, height: 14, color: '#0f6e56' }} />
+                    <div className="p-4 rounded-lg space-y-3" style={{ backgroundColor: '#faf8ff' }}>
+                        <p className="text-[14px] font-semibold text-[#0c1a3a] flex items-center gap-2">
+                            <MapPin style={{ width: 14, height: 14, color: '#004ac6' }} />
                             Địa chỉ
                         </p>
                         <div className="grid grid-cols-3 gap-3">
@@ -233,7 +233,7 @@ const BuildingModal = ({
                                 {wards.map(w => <option key={w.code} value={w.code}>{w.name}</option>)}
                             </select>
                         </div>
-                        {locLoading && <p className="text-[11.5px] text-[#0f6e56] font-semibold">Đang tải...</p>}
+                        {locLoading && <p className="text-[11.5px] text-[#004ac6] font-semibold">Đang tải...</p>}
                         <input
                             type="text"
                             required
@@ -252,7 +252,7 @@ const BuildingModal = ({
                             onLocationChange={latlng => setForm({ ...form, coordinates: latlng })}
                         />
                         {form.coordinates && (
-                            <p className="text-[11.5px] text-[#0f6e56] font-semibold mt-1">
+                            <p className="text-[11.5px] text-[#004ac6] font-semibold mt-1">
                                 ✓ Đã chọn: {form.coordinates.lat.toFixed(6)}, {form.coordinates.lng.toFixed(6)}
                             </p>
                         )}
@@ -286,12 +286,12 @@ const BuildingModal = ({
                     {/* Description with AI */}
                     <div>
                         <div className="flex items-center justify-between mb-2">
-                            <label className="block text-[14px] font-semibold text-[#181d1a]">Mô tả</label>
+                            <label className="block text-[14px] font-semibold text-[#0c1a3a]">Mô tả</label>
                             <button
                                 type="button"
                                 onClick={onAI}
                                 disabled={aiLoading}
-                                className="flex items-center gap-1 text-[#0f6e56] text-[11.5px] font-semibold hover:underline disabled:opacity-50"
+                                className="flex items-center gap-1 text-[#004ac6] text-[11.5px] font-semibold hover:underline disabled:opacity-50"
                             >
                                 {aiLoading ? (
                                     <Loader style={{ width: 12, height: 12 }} className="animate-spin" />
@@ -311,12 +311,12 @@ const BuildingModal = ({
                     </div>
 
                     {/* Footer */}
-                    <div className="flex gap-3 pt-4 border-t" style={{ borderColor: '#bec9c3' }}>
+                    <div className="flex gap-3 pt-4 border-t" style={{ borderColor: '#e2e8f0' }}>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="flex-1 px-6 py-3 rounded-lg border font-semibold text-[#3f4944] hover:bg-[#ebefeb] transition-colors"
-                            style={{ borderColor: '#bec9c3' }}
+                            className="flex-1 px-6 py-3 rounded-lg border font-semibold text-[#434655] hover:bg-[#f1f4fb] transition-colors"
+                            style={{ borderColor: '#e2e8f0' }}
                         >
                             Hủy
                         </button>
@@ -324,7 +324,7 @@ const BuildingModal = ({
                             type="submit"
                             disabled={loading}
                             className="flex-1 px-6 py-3 rounded-lg text-white font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
-                            style={{ backgroundColor: '#0f6e56' }}
+                            style={{ backgroundColor: '#004ac6' }}
                         >
                             {loading ? (
                                 <Loader style={{ width: 16, height: 16 }} className="animate-spin" />
@@ -461,7 +461,7 @@ const PropertyList = () => {
         <div
             className="min-h-screen pb-20"
             style={{
-                backgroundColor: '#f7faf6',
+                backgroundColor: '#faf8ff',
                 fontFamily: "'Be Vietnam Pro', sans-serif",
                 paddingTop: '80px',
                 paddingLeft: '24px',
@@ -473,13 +473,13 @@ const PropertyList = () => {
             {/* Header */}
             <div className="flex items-end justify-between mb-6">
                 <div>
-                    <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74] mb-1">Bất động sản</p>
-                    <h1 className="text-[24px] font-semibold text-[#181d1a] leading-8">Tòa nhà & Phòng</h1>
+                    <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#737686] mb-1">Bất động sản</p>
+                    <h1 className="text-[24px] font-semibold text-[#0c1a3a] leading-8">Tòa nhà & Phòng</h1>
                 </div>
                 <button
                     onClick={() => setShowModal(true)}
                     className="flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-semibold hover:opacity-90 transition-all"
-                    style={{ backgroundColor: '#0f6e56' }}
+                    style={{ backgroundColor: '#004ac6' }}
                 >
                     <Plus style={{ width: 16, height: 16 }} />
                     Thêm tòa nhà
@@ -490,8 +490,8 @@ const PropertyList = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                 <StatCard
                     icon={Building2}
-                    iconBg="#e6f7f2"
-                    iconColor="#0f6e56"
+                    iconBg="#eff4ff"
+                    iconColor="#004ac6"
                     label="Tổng tòa nhà"
                     value={stats.total}
                     subtitle="Đang quản lý"
@@ -532,7 +532,7 @@ const PropertyList = () => {
 
             {/* Filter Tabs */}
             <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-1 p-1 rounded-full" style={{ backgroundColor: '#ebefeb' }}>
+                <div className="flex items-center gap-1 p-1 rounded-full" style={{ backgroundColor: '#f1f4fb' }}>
                     <FilterTab label="Tất cả" active={filter === 'all'} onClick={() => setFilter('all')} count={buildings.length} />
                     <FilterTab label="Căn hộ" active={filter === 'apartment'} onClick={() => setFilter('apartment')} />
                     <FilterTab label="Nhà nguyên căn" active={filter === 'house'} onClick={() => setFilter('house')} />
@@ -541,29 +541,29 @@ const PropertyList = () => {
                 <div className="flex items-center gap-3">
                     {/* Search */}
                     <div className="relative">
-                        <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#6f7a74' }} />
+                        <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#737686' }} />
                         <input
                             type="text"
                             placeholder="Tìm kiếm..."
                             value={searchTerm}
                             onChange={e => setSearchTerm(e.target.value)}
                             className="pl-10 pr-4 py-2 rounded-lg border text-sm focus:outline-none transition-all"
-                            style={{ borderColor: '#bec9c3', backgroundColor: '#ffffff', width: 200 }}
+                            style={{ borderColor: '#e2e8f0', backgroundColor: '#ffffff', width: 200 }}
                         />
                     </div>
                     {/* View Toggle */}
-                    <div className="flex items-center rounded-lg border overflow-hidden" style={{ borderColor: '#bec9c3' }}>
+                    <div className="flex items-center rounded-lg border overflow-hidden" style={{ borderColor: '#e2e8f0' }}>
                         <button
                             onClick={() => setViewMode('table')}
-                            className={`p-2 transition-colors ${viewMode === 'table' ? 'text-white' : 'bg-white text-[#6f7a74] hover:bg-[#ebefeb]'}`}
-                            style={viewMode === 'table' ? { backgroundColor: '#0f6e56' } : {}}
+                            className={`p-2 transition-colors ${viewMode === 'table' ? 'text-white' : 'bg-white text-[#737686] hover:bg-[#f1f4fb]'}`}
+                            style={viewMode === 'table' ? { backgroundColor: '#004ac6' } : {}}
                         >
                             <List style={{ width: 16, height: 16 }} />
                         </button>
                         <button
                             onClick={() => setViewMode('grid')}
-                            className={`p-2 transition-colors ${viewMode === 'grid' ? 'text-white' : 'bg-white text-[#6f7a74] hover:bg-[#ebefeb]'}`}
-                            style={viewMode === 'grid' ? { backgroundColor: '#0f6e56' } : {}}
+                            className={`p-2 transition-colors ${viewMode === 'grid' ? 'text-white' : 'bg-white text-[#737686] hover:bg-[#f1f4fb]'}`}
+                            style={viewMode === 'grid' ? { backgroundColor: '#004ac6' } : {}}
                         >
                             <Grid3x3 style={{ width: 16, height: 16 }} />
                         </button>
@@ -574,40 +574,40 @@ const PropertyList = () => {
             {/* Content */}
             {isLoading ? (
                 <div className="flex justify-center py-20">
-                    <Loader style={{ width: 24, height: 24 }} className="animate-spin text-[#bec9c3]" />
+                    <Loader style={{ width: 24, height: 24 }} className="animate-spin text-[#e2e8f0]" />
                 </div>
             ) : filteredBuildings.length === 0 ? (
                 <div
-                    className="flex flex-col items-center justify-center py-20 rounded-[14px] border border-dashed cursor-pointer hover:border-[#0f6e56]/30 transition-colors"
-                    style={{ borderColor: '#bec9c3' }}
+                    className="flex flex-col items-center justify-center py-20 rounded-[14px] border border-dashed cursor-pointer hover:border-[#004ac6]/30 transition-colors"
+                    style={{ borderColor: '#e2e8f0' }}
                     onClick={() => setShowModal(true)}
                 >
                     <div
                         className="w-16 h-16 rounded-full flex items-center justify-center mb-4"
-                        style={{ backgroundColor: '#ebefeb' }}
+                        style={{ backgroundColor: '#f1f4fb' }}
                     >
-                        <House style={{ width: 28, height: 28, color: '#bec9c3' }} />
+                        <House style={{ width: 28, height: 28, color: '#e2e8f0' }} />
                     </div>
-                    <p className="text-[14px] font-semibold text-[#6f7a74]">Chưa có tòa nhà nào</p>
-                    <p className="text-[11.5px] text-[#6f7a74] mt-1">Bấm để thêm tòa nhà đầu tiên</p>
+                    <p className="text-[14px] font-semibold text-[#737686]">Chưa có tòa nhà nào</p>
+                    <p className="text-[11.5px] text-[#737686] mt-1">Bấm để thêm tòa nhà đầu tiên</p>
                 </div>
             ) : (
                 <div
                     className="rounded-[14px] overflow-hidden border"
-                    style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+                    style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
                 >
                     <table className="w-full text-left">
                         <thead style={{ backgroundColor: '#f8fafc' }}>
-                            <tr className="border-b" style={{ borderColor: '#bec9c3' }}>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Tòa nhà</th>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Loại hình</th>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Số tầng</th>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Phòng</th>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider">Trạng thái</th>
-                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#6f7a74] uppercase tracking-wider text-right">Thao tác</th>
+                            <tr className="border-b" style={{ borderColor: '#e2e8f0' }}>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Tòa nhà</th>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Loại hình</th>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Số tầng</th>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Phòng</th>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Trạng thái</th>
+                                <th className="px-6 py-3 text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider text-right">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y" style={{ borderColor: '#bec9c3' }}>
+                        <tbody className="divide-y" style={{ borderColor: '#e2e8f0' }}>
                             {filteredBuildings.map(building => (
                                 <BuildingRow
                                     key={building.building_id}
@@ -626,7 +626,7 @@ const PropertyList = () => {
             <button
                 onClick={() => setShowModal(true)}
                 className="fixed bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform z-50"
-                style={{ backgroundColor: '#0f6e56', color: 'white' }}
+                style={{ backgroundColor: '#004ac6', color: 'white' }}
             >
                 <Plus style={{ width: 28, height: 28 }} />
             </button>

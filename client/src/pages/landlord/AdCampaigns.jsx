@@ -13,17 +13,17 @@ const formatVND = (n) => new Intl.NumberFormat('vi-VN', { style: 'currency', cur
 
 /* ── Stat Card ── */
 const StatCard = ({ label, value, subtitle, trend }) => (
-    <div className="bg-white rounded-xl border p-4" style={{ borderColor: '#bec9c3' }}>
-        <p className="text-[11.5px] text-[#6f7a74] uppercase tracking-wider mb-1">{label}</p>
-        <h3 className="text-[20px] font-bold text-[#181d1a]">{value}</h3>
+    <div className="bg-white rounded-xl border p-4" style={{ borderColor: '#e2e8f0' }}>
+        <p className="text-[11.5px] text-[#737686] uppercase tracking-wider mb-1">{label}</p>
+        <h3 className="text-[20px] font-bold text-[#0c1a3a]">{value}</h3>
         {trend && (
-            <div className="flex items-center gap-1 text-[#0f6e56] mt-1">
+            <div className="flex items-center gap-1 text-[#004ac6] mt-1">
                 <ArrowUp style={{ width: 12, height: 12 }} />
                 <span className="text-[11.5px]">{trend}</span>
             </div>
         )}
         {subtitle && (
-            <p className="text-[11.5px] text-[#3f4944] mt-1">{subtitle}</p>
+            <p className="text-[11.5px] text-[#434655] mt-1">{subtitle}</p>
         )}
     </div>
 );
@@ -31,12 +31,12 @@ const StatCard = ({ label, value, subtitle, trend }) => (
 /* ── Status Badge ── */
 const StatusBadge = ({ status }) => {
     const statusMap = {
-        active: { label: 'Đang chạy', bg: 'rgba(15, 110, 86, 0.1)', color: '#005440' },
+        active: { label: 'Đang chạy', bg: 'rgba(0, 74, 198, 0.1)', color: '#003b9e' },
         pending: { label: 'Đang duyệt', bg: 'rgba(234, 179, 8, 0.1)', color: '#a16207' },
         rejected: { label: 'Từ chối', bg: '#fee2e2', color: '#dc2626' },
-        expired: { label: 'Hết hạn', bg: '#f3f4f6', color: '#6f7a74' }
+        expired: { label: 'Hết hạn', bg: '#f3f4f6', color: '#737686' }
     };
-    const s = statusMap[status] || { label: status, bg: '#f3f4f6', color: '#6f7a74' };
+    const s = statusMap[status] || { label: status, bg: '#f3f4f6', color: '#737686' };
     return (
         <span className="px-3 py-1 rounded-full text-[11.5px] font-semibold" style={{ backgroundColor: s.bg, color: s.color }}>
             {s.label}
@@ -46,28 +46,28 @@ const StatusBadge = ({ status }) => {
 
 /* ── Pagination ── */
 const Pagination = ({ currentPage, totalPages, onPageChange, total }) => (
-    <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#bec9c3', backgroundColor: '#f8fafc' }}>
-        <span className="text-[11.5px] text-[#6f7a74]">Hiển thị 3 trên {total} chiến dịch</span>
+    <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#e2e8f0', backgroundColor: '#f8fafc' }}>
+        <span className="text-[11.5px] text-[#737686]">Hiển thị 3 trên {total} chiến dịch</span>
         <div className="flex items-center gap-1">
             <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}
-                className="p-2 rounded border hover:bg-[#ebefeb] disabled:opacity-30"
-                style={{ borderColor: '#bec9c3' }}>
-                <ChevronLeft style={{ width: 16, height: 16, color: '#6f7a74' }} />
+                className="p-2 rounded border hover:bg-[#f1f4fb] disabled:opacity-30"
+                style={{ borderColor: '#e2e8f0' }}>
+                <ChevronLeft style={{ width: 16, height: 16, color: '#737686' }} />
             </button>
             {[1, 2, 3].map(p => (
                 <button key={p} onClick={() => onPageChange(p)}
                     className="w-8 h-8 rounded text-[11.5px] font-bold flex items-center justify-center transition-colors"
                     style={currentPage === p
-                        ? { backgroundColor: '#0f6e56', color: 'white' }
-                        : { borderColor: '#bec9c3', backgroundColor: 'white', color: '#6f7a74' }
+                        ? { backgroundColor: '#004ac6', color: 'white' }
+                        : { borderColor: '#e2e8f0', backgroundColor: 'white', color: '#737686' }
                     }>
                     {p}
                 </button>
             ))}
             <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}
-                className="p-2 rounded border hover:bg-[#ebefeb] disabled:opacity-30"
-                style={{ borderColor: '#bec9c3' }}>
-                <ChevronRightIcon style={{ width: 16, height: 16, color: '#6f7a74' }} />
+                className="p-2 rounded border hover:bg-[#f1f4fb] disabled:opacity-30"
+                style={{ borderColor: '#e2e8f0' }}>
+                <ChevronRightIcon style={{ width: 16, height: 16, color: '#737686' }} />
             </button>
         </div>
     </div>
@@ -280,7 +280,7 @@ const AdCampaigns = () => {
         <div
             className="min-h-screen pb-20"
             style={{
-                backgroundColor: '#f7faf6',
+                backgroundColor: '#faf8ff',
                 fontFamily: "'Be Vietnam Pro', sans-serif",
                 paddingTop: '80px',
                 paddingLeft: '24px',
@@ -336,15 +336,15 @@ const AdCampaigns = () => {
             )}
 
             {/* Table Section */}
-            <div className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: '#bec9c3' }}>
-                <div className="p-4 border-b flex justify-between items-center" style={{ borderColor: '#bec9c3' }}>
-                    <h3 className="text-[20px] font-bold text-[#181d1a]">Quản lý chiến dịch</h3>
+            <div className="bg-white rounded-xl border overflow-hidden" style={{ borderColor: '#e2e8f0' }}>
+                <div className="p-4 border-b flex justify-between items-center" style={{ borderColor: '#e2e8f0' }}>
+                    <h3 className="text-[20px] font-bold text-[#0c1a3a]">Quản lý chiến dịch</h3>
                     <div className="flex gap-3">
-                        <button className="flex items-center gap-1 px-3 py-2 rounded-lg border text-[14px] font-semibold hover:bg-[#ebefeb] transition-colors" style={{ borderColor: '#bec9c3', color: '#3f4944' }}>
+                        <button className="flex items-center gap-1 px-3 py-2 rounded-lg border text-[14px] font-semibold hover:bg-[#f1f4fb] transition-colors" style={{ borderColor: '#e2e8f0', color: '#434655' }}>
                             <ListFilter style={{ width: 16, height: 16 }} />
                             Bộ lọc
                         </button>
-                        <button className="flex items-center gap-1 px-3 py-2 rounded-lg border text-[14px] font-semibold hover:bg-[#ebefeb] transition-colors" style={{ borderColor: '#bec9c3', color: '#3f4944' }}>
+                        <button className="flex items-center gap-1 px-3 py-2 rounded-lg border text-[14px] font-semibold hover:bg-[#f1f4fb] transition-colors" style={{ borderColor: '#e2e8f0', color: '#434655' }}>
                             <Download style={{ width: 16, height: 16 }} />
                             Xuất báo cáo
                         </button>
@@ -352,27 +352,27 @@ const AdCampaigns = () => {
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
-                        <thead style={{ backgroundColor: '#f1f4f1' }}>
+                        <thead style={{ backgroundColor: '#f3f5fc' }}>
                             <tr>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Chiến dịch</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Loại Banner</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Hình ảnh</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Trạng thái</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Ngân sách</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Lượt xem</th>
-                                <th className="px-6 py-4 text-[14px] font-bold text-[#3f4944]">Thao tác</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Chiến dịch</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Loại Banner</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Hình ảnh</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Trạng thái</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Ngân sách</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Lượt xem</th>
+                                <th className="px-6 py-4 text-[14px] font-bold text-[#434655]">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y" style={{ borderColor: '#bec9c3' }}>
+                        <tbody className="divide-y" style={{ borderColor: '#e2e8f0' }}>
                             {loading ? (
                                 <tr><td colSpan="7" className="px-6 py-16 text-center">Đang tải...</td></tr>
                             ) : requests.length === 0 ? (
-                                <tr><td colSpan="7" className="px-6 py-16 text-center text-[#6f7a74]">Bạn chưa có chiến dịch nào.</td></tr>
+                                <tr><td colSpan="7" className="px-6 py-16 text-center text-[#737686]">Bạn chưa có chiến dịch nào.</td></tr>
                             ) : requests.map((item) => (
-                                <tr key={item.request_id} className="hover:bg-[#f9fbfc] transition-colors">
+                                <tr key={item.request_id} className="hover:bg-[#faf8ff] transition-colors">
                                     <td className="px-6 py-4">
-                                        <div className="font-semibold text-[14px] text-[#181d1a]">{item.listing_title || 'Tin đăng'}</div>
-                                        <div className="text-[11.5px] text-[#6f7a74]">ID: {item.request_id}</div>
+                                        <div className="font-semibold text-[14px] text-[#0c1a3a]">{item.listing_title || 'Tin đăng'}</div>
+                                        <div className="text-[11.5px] text-[#737686]">ID: {item.request_id}</div>
                                     </td>
                                     <td className="px-6 py-4">
                                         <span className="px-3 py-1 rounded-full text-[11.5px] font-bold"
@@ -382,10 +382,10 @@ const AdCampaigns = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         {item.image_url ? (
-                                            <img src={item.image_url} alt="Banner" className="w-[80px] h-[45px] rounded-md object-cover border" style={{ borderColor: '#bec9c3' }} />
+                                            <img src={item.image_url} alt="Banner" className="w-[80px] h-[45px] rounded-md object-cover border" style={{ borderColor: '#e2e8f0' }} />
                                         ) : (
-                                            <div className="w-[80px] h-[45px] rounded-md border flex items-center justify-center" style={{ backgroundColor: '#ebefeb', borderColor: '#bec9c3' }}>
-                                                <Image style={{ width: 20, height: 20, color: '#6f7a74' }} />
+                                            <div className="w-[80px] h-[45px] rounded-md border flex items-center justify-center" style={{ backgroundColor: '#f1f4fb', borderColor: '#e2e8f0' }}>
+                                                <Image style={{ width: 20, height: 20, color: '#737686' }} />
                                             </div>
                                         )}
                                     </td>
@@ -396,13 +396,13 @@ const AdCampaigns = () => {
                                     <td className="px-6 py-4 text-[14px]">{item.views || 0}</td>
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-1">
-                                            <button onClick={() => openDetail(item)} className="p-2 rounded border hover:border-[#0f6e56] hover:text-[#0f6e56] transition-colors" style={{ borderColor: '#bec9c3', color: '#6f7a74' }}>
+                                            <button onClick={() => openDetail(item)} className="p-2 rounded border hover:border-[#004ac6] hover:text-[#004ac6] transition-colors" style={{ borderColor: '#e2e8f0', color: '#737686' }}>
                                                 <Eye style={{ width: 18, height: 18 }} />
                                             </button>
-                                            <button onClick={() => openRenew(item)} className="p-2 rounded border hover:border-[#0f6e56] hover:text-[#0f6e56] transition-colors" style={{ borderColor: '#bec9c3', color: '#6f7a74' }}>
+                                            <button onClick={() => openRenew(item)} className="p-2 rounded border hover:border-[#004ac6] hover:text-[#004ac6] transition-colors" style={{ borderColor: '#e2e8f0', color: '#737686' }}>
                                                 <RefreshCw style={{ width: 18, height: 18 }} />
                                             </button>
-                                            <button onClick={() => handleDelete(item)} className="p-2 rounded border hover:border-[#dc2626] hover:text-[#dc2626] transition-colors" style={{ borderColor: '#bec9c3', color: '#6f7a74' }}>
+                                            <button onClick={() => handleDelete(item)} className="p-2 rounded border hover:border-[#dc2626] hover:text-[#dc2626] transition-colors" style={{ borderColor: '#e2e8f0', color: '#737686' }}>
                                                 <Trash2 style={{ width: 18, height: 18 }} />
                                             </button>
                                         </div>
@@ -419,7 +419,7 @@ const AdCampaigns = () => {
             <button
                 onClick={() => setShowModal(true)}
                 className="fixed bottom-6 right-6 flex items-center gap-2 px-6 py-3 rounded-full shadow-xl hover:opacity-90 active:scale-95 transition-all z-50"
-                style={{ backgroundColor: '#0f6e56', color: 'white' }}
+                style={{ backgroundColor: '#004ac6', color: 'white' }}
             >
                 <Plus style={{ width: 20, height: 20 }} />
                 <span className="text-[14px] font-bold">Chiến dịch mới</span>
@@ -430,21 +430,21 @@ const AdCampaigns = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/50" onClick={() => setShowModal(false)} />
                     <div className="relative bg-white rounded-[16px] w-full max-w-lg shadow-xl overflow-hidden" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
-                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
-                            <h3 className="text-[20px] font-bold text-[#181d1a]">Mua Gói Quảng Cáo</h3>
-                            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-[#ebefeb] rounded-lg transition-colors">
-                                <X style={{ width: 20, height: 20, color: '#6f7a74' }} />
+                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
+                            <h3 className="text-[20px] font-bold text-[#0c1a3a]">Mua Gói Quảng Cáo</h3>
+                            <button onClick={() => setShowModal(false)} className="p-2 hover:bg-[#f1f4fb] rounded-lg transition-colors">
+                                <X style={{ width: 20, height: 20, color: '#737686' }} />
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
-                                <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">Chọn tin đăng active</label>
+                                <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">Chọn tin đăng active</label>
                                 <select
                                     required
                                     value={formData.listing_id}
                                     onChange={e => handleListingChange(e.target.value)}
-                                    className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#0f6e56]"
-                                    style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}
+                                    className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#004ac6]"
+                                    style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}
                                 >
                                     <option value="">-- Chọn một tin đang active --</option>
                                     {landlordListings.map((item) => (
@@ -457,24 +457,24 @@ const AdCampaigns = () => {
 
                             <div className="grid grid-cols-1 gap-5 md:grid-cols-[140px_1fr]">
                                 <div>
-                                    <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">Ảnh preview</label>
-                                    <div className="w-full h-[120px] rounded-xl border overflow-hidden flex items-center justify-center" style={{ borderColor: '#bec9c3', backgroundColor: '#ebefeb' }}>
+                                    <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">Ảnh preview</label>
+                                    <div className="w-full h-[120px] rounded-xl border overflow-hidden flex items-center justify-center" style={{ borderColor: '#e2e8f0', backgroundColor: '#f1f4fb' }}>
                                         {previewImage ? (
                                             <img src={previewImage} alt="Preview" className="w-full h-full object-cover" />
                                         ) : (
                                             <div className="text-center px-4">
-                                                <Image style={{ width: 28, height: 28, color: '#6f7a74', margin: '0 auto 8px' }} />
-                                                <p className="text-[11.5px] text-[#6f7a74]">Ảnh đầu tiên của tin</p>
+                                                <Image style={{ width: 28, height: 28, color: '#737686', margin: '0 auto 8px' }} />
+                                                <p className="text-[11.5px] text-[#737686]">Ảnh đầu tiên của tin</p>
                                             </div>
                                         )}
                                     </div>
                                 </div>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">Vị trí banner</label>
+                                        <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">Vị trí banner</label>
                                         <select value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })}
-                                            className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#0f6e56]"
-                                            style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
+                                            className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#004ac6]"
+                                            style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
                                             {bannerServices.length > 0 ? bannerServices.map((svc) => (
                                                 <option key={svc.service_id} value={svc.badge_type}>{svc.name}</option>
                                             )) : (
@@ -484,15 +484,15 @@ const AdCampaigns = () => {
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div>
-                                            <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">Số ngày</label>
+                                            <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">Số ngày</label>
                                             <input type="number" min="1" value={formData.duration_days}
                                                 onChange={e => setFormData({ ...formData, duration_days: Number(e.target.value) })}
-                                                className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#0f6e56]"
-                                                style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }} />
+                                                className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#004ac6]"
+                                                style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }} />
                                         </div>
-                                        <div className="p-4 rounded-xl flex flex-col justify-center" style={{ backgroundColor: '#e6f7f2' }}>
-                                            <span className="text-[11.5px] text-[#005440] uppercase font-semibold">Tổng thanh toán</span>
-                                            <span className="text-[24px] font-bold text-[#0f6e56]">{new Intl.NumberFormat('vi-VN').format(calculateFee())}đ</span>
+                                        <div className="p-4 rounded-xl flex flex-col justify-center" style={{ backgroundColor: '#eff4ff' }}>
+                                            <span className="text-[11.5px] text-[#003b9e] uppercase font-semibold">Tổng thanh toán</span>
+                                            <span className="text-[24px] font-bold text-[#004ac6]">{new Intl.NumberFormat('vi-VN').format(calculateFee())}đ</span>
                                         </div>
                                     </div>
                                 </div>
@@ -500,7 +500,7 @@ const AdCampaigns = () => {
 
                             <button type="submit" disabled={submitting || !formData.listing_id}
                                 className="w-full py-3 rounded-lg text-white font-bold hover:opacity-90 transition disabled:opacity-50"
-                                style={{ backgroundColor: '#0f6e56' }}>
+                                style={{ backgroundColor: '#004ac6' }}>
                                 {submitting ? 'Đang xử lý...' : 'Thanh toán từ số dư ví'}
                             </button>
                         </form>
@@ -513,44 +513,44 @@ const AdCampaigns = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/50" onClick={() => setShowDetailModal(false)} />
                     <div className="relative bg-white rounded-[16px] w-full max-w-lg shadow-xl overflow-hidden" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
-                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
-                            <h3 className="text-[20px] font-bold text-[#181d1a]">Chi tiết chiến dịch</h3>
-                            <button onClick={() => setShowDetailModal(false)} className="p-2 hover:bg-[#ebefeb] rounded-lg">
-                                <X style={{ width: 20, height: 20, color: '#6f7a74' }} />
+                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
+                            <h3 className="text-[20px] font-bold text-[#0c1a3a]">Chi tiết chiến dịch</h3>
+                            <button onClick={() => setShowDetailModal(false)} className="p-2 hover:bg-[#f1f4fb] rounded-lg">
+                                <X style={{ width: 20, height: 20, color: '#737686' }} />
                             </button>
                         </div>
                         <div className="p-6 space-y-4">
                             <div className="flex justify-center mb-4">
                                 {selectedCampaign.image_url ? (
-                                    <img src={selectedCampaign.image_url} alt="Banner" className="w-full max-w-sm h-32 object-cover rounded-xl border" style={{ borderColor: '#bec9c3' }} />
+                                    <img src={selectedCampaign.image_url} alt="Banner" className="w-full max-w-sm h-32 object-cover rounded-xl border" style={{ borderColor: '#e2e8f0' }} />
                                 ) : (
-                                    <div className="w-full max-w-sm h-32 rounded-xl border flex items-center justify-center" style={{ backgroundColor: '#ebefeb', borderColor: '#bec9c3' }}>
-                                        <Image style={{ width: 48, height: 48, color: '#6f7a74' }} />
+                                    <div className="w-full max-w-sm h-32 rounded-xl border flex items-center justify-center" style={{ backgroundColor: '#f1f4fb', borderColor: '#e2e8f0' }}>
+                                        <Image style={{ width: 48, height: 48, color: '#737686' }} />
                                     </div>
                                 )}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-[11.5px] text-[#6f7a74] uppercase">Loại banner</p>
-                                    <p className="font-bold text-[#181d1a]">{selectedCampaign.type === 'home_banner' ? 'Banner Trang Chủ' : 'Sidebar'}</p>
+                                    <p className="text-[11.5px] text-[#737686] uppercase">Loại banner</p>
+                                    <p className="font-bold text-[#0c1a3a]">{selectedCampaign.type === 'home_banner' ? 'Banner Trang Chủ' : 'Sidebar'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-[11.5px] text-[#6f7a74] uppercase">Trạng thái</p>
+                                    <p className="text-[11.5px] text-[#737686] uppercase">Trạng thái</p>
                                     <StatusBadge status={selectedCampaign.status} />
                                 </div>
                                 <div>
-                                    <p className="text-[11.5px] text-[#6f7a74] uppercase">Thời gian</p>
-                                    <p className="font-bold text-[#181d1a]">{selectedCampaign.duration_days} ngày</p>
+                                    <p className="text-[11.5px] text-[#737686] uppercase">Thời gian</p>
+                                    <p className="font-bold text-[#0c1a3a]">{selectedCampaign.duration_days} ngày</p>
                                 </div>
                                 <div>
-                                    <p className="text-[11.5px] text-[#6f7a74] uppercase">Chi phí</p>
-                                    <p className="font-bold text-[#0f6e56]">{new Intl.NumberFormat('vi-VN').format(selectedCampaign.fee_paid)}đ</p>
+                                    <p className="text-[11.5px] text-[#737686] uppercase">Chi phí</p>
+                                    <p className="font-bold text-[#004ac6]">{new Intl.NumberFormat('vi-VN').format(selectedCampaign.fee_paid)}đ</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-3 px-6 py-4 border-t" style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
+                        <div className="flex gap-3 px-6 py-4 border-t" style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
                             <button onClick={() => { setShowDetailModal(false); openRenew(selectedCampaign); }}
-                                className="flex-1 py-3 rounded-lg text-white font-bold hover:opacity-90 transition" style={{ backgroundColor: '#0f6e56' }}>
+                                className="flex-1 py-3 rounded-lg text-white font-bold hover:opacity-90 transition" style={{ backgroundColor: '#004ac6' }}>
                                 Gia hạn
                             </button>
                             <button onClick={() => { setShowDetailModal(false); handleDelete(selectedCampaign); }}
@@ -567,35 +567,35 @@ const AdCampaigns = () => {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/50" onClick={() => setShowRenewModal(false)} />
                     <div className="relative bg-white rounded-[16px] w-full max-w-md shadow-xl" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
-                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
-                            <h3 className="text-[20px] font-bold text-[#181d1a]">Gia hạn chiến dịch</h3>
-                            <button onClick={() => setShowRenewModal(false)} className="p-2 hover:bg-[#ebefeb] rounded-lg">
-                                <X style={{ width: 20, height: 20, color: '#6f7a74' }} />
+                        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
+                            <h3 className="text-[20px] font-bold text-[#0c1a3a]">Gia hạn chiến dịch</h3>
+                            <button onClick={() => setShowRenewModal(false)} className="p-2 hover:bg-[#f1f4fb] rounded-lg">
+                                <X style={{ width: 20, height: 20, color: '#737686' }} />
                             </button>
                         </div>
                         <div className="p-6 space-y-5">
-                            <div className="p-4 rounded-xl" style={{ backgroundColor: '#f7faf6' }}>
-                                <p className="text-[11.5px] text-[#6f7a74] uppercase mb-1">Chiến dịch hiện tại</p>
-                                <p className="font-bold text-[#181d1a]">{selectedCampaign.type === 'home_banner' ? 'Banner Trang Chủ' : 'Sidebar'}</p>
-                                <p className="text-[14px] text-[#6f7a74]">{selectedCampaign.duration_days} ngày - {new Intl.NumberFormat('vi-VN').format(selectedCampaign.fee_paid)}đ</p>
+                            <div className="p-4 rounded-xl" style={{ backgroundColor: '#faf8ff' }}>
+                                <p className="text-[11.5px] text-[#737686] uppercase mb-1">Chiến dịch hiện tại</p>
+                                <p className="font-bold text-[#0c1a3a]">{selectedCampaign.type === 'home_banner' ? 'Banner Trang Chủ' : 'Sidebar'}</p>
+                                <p className="text-[14px] text-[#737686]">{selectedCampaign.duration_days} ngày - {new Intl.NumberFormat('vi-VN').format(selectedCampaign.fee_paid)}đ</p>
                             </div>
                             <div>
-                                <label className="block text-[14px] font-semibold text-[#181d1a] mb-2">Số ngày gia hạn thêm</label>
+                                <label className="block text-[14px] font-semibold text-[#0c1a3a] mb-2">Số ngày gia hạn thêm</label>
                                 <input type="number" min="1" value={renewData.duration_days}
                                     onChange={e => setRenewData({ duration_days: Number(e.target.value) })}
-                                    className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#0f6e56]"
-                                    style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }} />
+                                    className="w-full px-4 py-3 rounded-lg border text-[14px] focus:outline-none focus:border-[#004ac6]"
+                                    style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }} />
                             </div>
-                            <div className="p-4 rounded-xl" style={{ backgroundColor: '#e6f7f2' }}>
+                            <div className="p-4 rounded-xl" style={{ backgroundColor: '#eff4ff' }}>
                                 <div className="flex justify-between items-center">
-                                    <span className="font-bold text-[#005440]">Thanh toán thêm:</span>
-                                    <span className="text-[20px] font-bold text-[#0f6e56]">{new Intl.NumberFormat('vi-VN').format(calculateRenewFee())}đ</span>
+                                    <span className="font-bold text-[#003b9e]">Thanh toán thêm:</span>
+                                    <span className="text-[20px] font-bold text-[#004ac6]">{new Intl.NumberFormat('vi-VN').format(calculateRenewFee())}đ</span>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex gap-3 px-6 py-4 border-t" style={{ borderColor: '#bec9c3', backgroundColor: '#f7faf6' }}>
-                            <button onClick={() => setShowRenewModal(false)} className="flex-1 py-3 rounded-lg border font-bold hover:bg-[#ebefeb] transition" style={{ borderColor: '#bec9c3', color: '#3f4944' }}>Hủy</button>
-                            <button onClick={handleRenew} disabled={submitting} className="flex-1 py-3 rounded-lg text-white font-bold hover:opacity-90 transition disabled:opacity-50" style={{ backgroundColor: '#0f6e56' }}>
+                        <div className="flex gap-3 px-6 py-4 border-t" style={{ borderColor: '#e2e8f0', backgroundColor: '#faf8ff' }}>
+                            <button onClick={() => setShowRenewModal(false)} className="flex-1 py-3 rounded-lg border font-bold hover:bg-[#f1f4fb] transition" style={{ borderColor: '#e2e8f0', color: '#434655' }}>Hủy</button>
+                            <button onClick={handleRenew} disabled={submitting} className="flex-1 py-3 rounded-lg text-white font-bold hover:opacity-90 transition disabled:opacity-50" style={{ backgroundColor: '#004ac6' }}>
                                 {submitting ? 'Đang xử lý...' : 'Xác nhận gia hạn'}
                             </button>
                         </div>

@@ -39,7 +39,7 @@ const Card = ({ title, subtitle, children, action }) => (
         <div className="flex items-center justify-between border-b border-[#e2e8f0] px-6 py-4">
             <div>
                 <h3 className="text-[20px] font-semibold text-[#0b1c30]">{title}</h3>
-                {subtitle && <p className="mt-1 text-[14px] text-[#5c403c]">{subtitle}</p>}
+                {subtitle && <p className="mt-1 text-[14px] text-[#515d81]">{subtitle}</p>}
             </div>
             {action}
         </div>
@@ -117,10 +117,10 @@ const MonetizationSettings = () => {
                     <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
                         <div>
                             <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.02em] text-[#0b1c30]">Cài đặt tiền tệ</h1>
-                            <p className="mt-1 text-[16px] text-[#5c403c]">Quản lý gói tin, dịch vụ VIP, tiền cọc và cấu hình hệ thống.</p>
+                            <p className="mt-1 text-[16px] text-[#515d81]">Quản lý gói tin, dịch vụ VIP, tiền cọc và cấu hình hệ thống.</p>
                         </div>
                         {activeTab !== 'system' && activeTab !== 'deposits' && (
-                            <button onClick={() => { setShowCreateModal(true); setCreateForm({}); }} className="flex items-center gap-2 rounded-lg bg-[#dc2626] px-4 py-3 text-[14px] font-semibold text-white shadow-sm hover:bg-[#b91c1c]">
+                            <button onClick={() => { setShowCreateModal(true); setCreateForm({}); }} className="flex items-center gap-2 rounded-lg bg-[#004ac6] px-4 py-3 text-[14px] font-semibold text-white shadow-sm hover:bg-[#003b9e]">
                                 <Plus size={14} /> Thêm mới
                             </button>
                         )}
@@ -133,7 +133,7 @@ const MonetizationSettings = () => {
                         { id: 'services', label: `Dịch vụ VIP (${stats.serviceCount})`, icon: Star },
                         { id: 'system', label: 'Cài đặt chung', icon: Settings },
                     ].map(({ id, label, icon: Icon }) => (
-                        <button key={id} onClick={() => setActiveTab(id)} className={`flex items-center gap-2 rounded-xl px-4 py-3 text-[14px] font-semibold transition-all ${activeTab === id ? 'bg-[#dc2626] text-white shadow-md' : 'bg-[#eff4ff] text-[#5c403c] hover:bg-[#e5eeff]'}`}>
+                        <button key={id} onClick={() => setActiveTab(id)} className={`flex items-center gap-2 rounded-xl px-4 py-3 text-[14px] font-semibold transition-all ${activeTab === id ? 'bg-[#004ac6] text-white shadow-md' : 'bg-[#eff4ff] text-[#515d81] hover:bg-[#e5eeff]'}`}>
                             <Icon size={16} /> {label}
                         </button>
                     ))}
@@ -143,16 +143,16 @@ const MonetizationSettings = () => {
                     <Card title="Danh sách gói tin" subtitle="Thiết lập giá, thời hạn và trạng thái hoạt động">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
-                                <thead className="bg-[#f8f9ff] text-[10px] font-black uppercase tracking-[0.16em] text-[#5c403c]"><tr><th className="px-6 py-4">Tên gói</th><th className="px-6 py-4">Thời hạn</th><th className="px-6 py-4">Giá</th><th className="px-6 py-4">Mô tả</th><th className="px-6 py-4 text-center">Trạng thái</th><th className="px-6 py-4 text-right">Thao tác</th></tr></thead>
+                                <thead className="bg-[#f8f9ff] text-[10px] font-black uppercase tracking-[0.16em] text-[#515d81]"><tr><th className="px-6 py-4">Tên gói</th><th className="px-6 py-4">Thời hạn</th><th className="px-6 py-4">Giá</th><th className="px-6 py-4">Mô tả</th><th className="px-6 py-4 text-center">Trạng thái</th><th className="px-6 py-4 text-right">Thao tác</th></tr></thead>
                                 <tbody className="divide-y divide-[#e2e8f0]">
                                     {packages.map((pkg) => (
-                                        <tr key={pkg.package_id} className="hover:bg-[#fef2f2]">
-                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input value={editForm.name || ''} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} className="w-full rounded-lg border border-[#e6bdb8] px-3 py-2 text-sm" /> : <span className="font-bold text-[#0b1c30]">{pkg.name}</span>}</td>
-                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input type="number" value={editForm.duration_days || 0} onChange={(e) => setEditForm({ ...editForm, duration_days: Number(e.target.value) })} className="w-24 rounded-lg border border-[#e6bdb8] px-3 py-2 text-sm" /> : <span className="text-[#5c403c]">{pkg.duration_days} ngày</span>}</td>
-                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input type="number" value={editForm.price || 0} onChange={(e) => setEditForm({ ...editForm, price: Number(e.target.value) })} className="w-32 rounded-lg border border-[#e6bdb8] px-3 py-2 text-sm" /> : <span className="font-bold text-[#dc2626]">{formatCurrency(pkg.price)}</span>}</td>
-                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input value={editForm.description || ''} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className="w-full rounded-lg border border-[#e6bdb8] px-3 py-2 text-sm" /> : <span className="text-sm text-[#5c403c]">{pkg.description}</span>}</td>
+                                        <tr key={pkg.package_id} className="hover:bg-[#eff4ff]">
+                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input value={editForm.name || ''} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} className="w-full rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm" /> : <span className="font-bold text-[#0b1c30]">{pkg.name}</span>}</td>
+                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input type="number" value={editForm.duration_days || 0} onChange={(e) => setEditForm({ ...editForm, duration_days: Number(e.target.value) })} className="w-24 rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm" /> : <span className="text-[#515d81]">{pkg.duration_days} ngày</span>}</td>
+                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input type="number" value={editForm.price || 0} onChange={(e) => setEditForm({ ...editForm, price: Number(e.target.value) })} className="w-32 rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm" /> : <span className="font-bold text-[#004ac6]">{formatCurrency(pkg.price)}</span>}</td>
+                                            <td className="px-6 py-4">{editingId === pkg.package_id ? <input value={editForm.description || ''} onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} className="w-full rounded-lg border border-[#e2e8f0] px-3 py-2 text-sm" /> : <span className="text-sm text-[#515d81]">{pkg.description}</span>}</td>
                                             <td className="px-6 py-4 text-center"><button onClick={() => handleTogglePackage(pkg.package_id)} className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-widest ${pkg.is_active ? 'border-emerald-200 bg-emerald-50 text-emerald-700' : 'border-gray-200 bg-gray-100 text-gray-500'}`}><Power size={12} />{pkg.is_active ? 'Active' : 'Inactive'}</button></td>
-                                            <td className="px-6 py-4"><div className="flex justify-end gap-2">{editingId === pkg.package_id ? <><button onClick={handleSavePackage} className="rounded-lg bg-[#dc2626] p-2 text-white"><Save size={18} /></button><button onClick={() => { setEditingId(null); setEditForm({}); }} className="rounded-lg border border-[#e6bdb8] p-2 text-[#5c403c]"><X size={18} /></button></> : <><button onClick={() => { setEditingId(pkg.package_id); setEditForm(pkg); }} className="rounded-lg border border-[#e6bdb8] p-2 text-[#5c403c]"><Pencil size={18} /></button><button onClick={() => handleDeletePackage(pkg.package_id)} className="rounded-lg border border-[#e6bdb8] p-2 text-[#5c403c]"><Trash2 size={18} /></button></>}</div></td>
+                                            <td className="px-6 py-4"><div className="flex justify-end gap-2">{editingId === pkg.package_id ? <><button onClick={handleSavePackage} className="rounded-lg bg-[#004ac6] p-2 text-white"><Save size={18} /></button><button onClick={() => { setEditingId(null); setEditForm({}); }} className="rounded-lg border border-[#e2e8f0] p-2 text-[#515d81]"><X size={18} /></button></> : <><button onClick={() => { setEditingId(pkg.package_id); setEditForm(pkg); }} className="rounded-lg border border-[#e2e8f0] p-2 text-[#515d81]"><Pencil size={18} /></button><button onClick={() => handleDeletePackage(pkg.package_id)} className="rounded-lg border border-[#e2e8f0] p-2 text-[#515d81]"><Trash2 size={18} /></button></>}</div></td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -188,7 +188,7 @@ const MonetizationSettings = () => {
                                                                 type="number"
                                                                 value={raw ?? ''}
                                                                 onChange={(e) => updatePricingCell(row.id, field, e.target.value === '' ? '' : currencyInput(e.target.value))}
-                                                                className="w-full rounded-lg border border-[#dbe3ee] bg-white px-3 py-2 text-center text-[14px] font-bold text-[#0b1c30] outline-none focus:border-[#dc2626]"
+                                                                className="w-full rounded-lg border border-[#dbe3ee] bg-white px-3 py-2 text-center text-[14px] font-bold text-[#0b1c30] outline-none focus:border-[#004ac6]"
                                                                 placeholder={field === 'normal' && row.label.includes('Giá đẩy') ? 'Không khả dụng' : '0'}
                                                             />
                                                         ) : (
@@ -206,7 +206,7 @@ const MonetizationSettings = () => {
                             </table>
                         </div>
                         <div className="flex justify-end gap-3 px-6 py-5">
-                            <button onClick={handleSavePricing} className="rounded-lg bg-[#dc2626] px-5 py-3 text-[14px] font-semibold text-white shadow-sm hover:bg-[#b91c1c]">
+                            <button onClick={handleSavePricing} className="rounded-lg bg-[#004ac6] px-5 py-3 text-[14px] font-semibold text-white shadow-sm hover:bg-[#003b9e]">
                                 <Save size={16} className="mr-2 inline" /> Lưu bảng giá
                             </button>
                         </div>
@@ -220,13 +220,13 @@ const MonetizationSettings = () => {
                         <Card title="Tiền tệ mặc định" subtitle="Thiết lập đơn vị tiền tệ và ký hiệu hiển thị">
                             <div className="p-6 space-y-4">
                                 <div>
-                                    <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">Mã tiền tệ</label>
+                                    <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">Mã tiền tệ</label>
                                     <div className="flex">
-                                        <input value={systemConfigs.currency_code || 'VND'} onChange={(e) => setSystemConfigs((prev) => ({ ...prev, currency_code: e.target.value }))} className="flex-1 rounded-l-lg border border-[#e6bdb8] bg-white px-4 py-3 outline-none focus:border-[#dc2626]" type="text" />
-                                        <span className="flex items-center rounded-r-lg border border-l-0 border-[#e6bdb8] bg-[#eff4ff] px-4 font-semibold text-[#5c403c]">₫</span>
+                                        <input value={systemConfigs.currency_code || 'VND'} onChange={(e) => setSystemConfigs((prev) => ({ ...prev, currency_code: e.target.value }))} className="flex-1 rounded-l-lg border border-[#e2e8f0] bg-white px-4 py-3 outline-none focus:border-[#004ac6]" type="text" />
+                                        <span className="flex items-center rounded-r-lg border border-l-0 border-[#e2e8f0] bg-[#eff4ff] px-4 font-semibold text-[#515d81]">₫</span>
                                     </div>
                                 </div>
-                                <button onClick={() => handleUpdateConfig('currency_code', systemConfigs.currency_code || 'VND')} className="flex items-center gap-2 rounded-lg bg-[#dc2626] px-4 py-3 text-[14px] font-semibold text-white hover:bg-[#b91c1c]">
+                                <button onClick={() => handleUpdateConfig('currency_code', systemConfigs.currency_code || 'VND')} className="flex items-center gap-2 rounded-lg bg-[#004ac6] px-4 py-3 text-[14px] font-semibold text-white hover:bg-[#003b9e]">
                                     <Save className="h-4 w-4" /> Lưu thay đổi
                                 </button>
                             </div>
@@ -235,13 +235,13 @@ const MonetizationSettings = () => {
                         <Card title="Tự động gia hạn" subtitle="Thông báo trước khi gói tin hết hạn">
                             <div className="p-6 space-y-4">
                                 <div>
-                                    <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">Ngày thông báo</label>
+                                    <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">Ngày thông báo</label>
                                     <div className="flex">
-                                        <input value={systemConfigs.renewal_notice_days || 3} onChange={(e) => setSystemConfigs((prev) => ({ ...prev, renewal_notice_days: e.target.value }))} className="flex-1 rounded-l-lg border border-[#e6bdb8] bg-white px-4 py-3 outline-none focus:border-[#dc2626]" type="number" />
-                                        <span className="flex items-center rounded-r-lg border border-l-0 border-[#e6bdb8] bg-[#eff4ff] px-4 font-semibold text-[#5c403c]">Ngày</span>
+                                        <input value={systemConfigs.renewal_notice_days || 3} onChange={(e) => setSystemConfigs((prev) => ({ ...prev, renewal_notice_days: e.target.value }))} className="flex-1 rounded-l-lg border border-[#e2e8f0] bg-white px-4 py-3 outline-none focus:border-[#004ac6]" type="number" />
+                                        <span className="flex items-center rounded-r-lg border border-l-0 border-[#e2e8f0] bg-[#eff4ff] px-4 font-semibold text-[#515d81]">Ngày</span>
                                     </div>
                                 </div>
-                                <button onClick={() => handleUpdateConfig('renewal_notice_days', Number(systemConfigs.renewal_notice_days || 3))} className="flex items-center gap-2 rounded-lg bg-[#dc2626] px-4 py-3 text-[14px] font-semibold text-white hover:bg-[#b91c1c]">
+                                <button onClick={() => handleUpdateConfig('renewal_notice_days', Number(systemConfigs.renewal_notice_days || 3))} className="flex items-center gap-2 rounded-lg bg-[#004ac6] px-4 py-3 text-[14px] font-semibold text-white hover:bg-[#003b9e]">
                                     <Save className="h-4 w-4" /> Cập nhật
                                 </button>
                             </div>
@@ -256,18 +256,18 @@ const MonetizationSettings = () => {
                     <div className="relative w-full max-w-lg overflow-hidden rounded-[16px] bg-white shadow-2xl">
                         <div className="flex items-center justify-between border-b border-[#e2e8f0] bg-[#f8f9ff] px-6 py-4">
                             <div>
-                                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">Tạo mới</p>
+                                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">Tạo mới</p>
                                 <h3 className="text-[20px] font-bold text-[#0b1c30]">Thêm cấu hình monetization</h3>
                             </div>
-                            <button onClick={() => setShowCreateModal(false)} className="rounded-lg p-2 hover:bg-[#eff4ff]"><X className="h-5 w-5 text-[#5c403c]" /></button>
+                            <button onClick={() => setShowCreateModal(false)} className="rounded-lg p-2 hover:bg-[#eff4ff]"><X className="h-5 w-5 text-[#515d81]" /></button>
                         </div>
                         <div className="space-y-4 p-6">
-                            <input value={createForm.name || ''} onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })} placeholder="Tên" className="w-full rounded-lg border border-[#e6bdb8] px-4 py-3 outline-none focus:border-[#dc2626]" />
-                            <input value={createForm.description || ''} onChange={(e) => setCreateForm({ ...createForm, description: e.target.value })} placeholder="Mô tả" className="w-full rounded-lg border border-[#e6bdb8] px-4 py-3 outline-none focus:border-[#dc2626]" />
-                            <input value={createForm.price || ''} onChange={(e) => setCreateForm({ ...createForm, price: e.target.value })} placeholder="Giá" className="w-full rounded-lg border border-[#e6bdb8] px-4 py-3 outline-none focus:border-[#dc2626]" />
+                            <input value={createForm.name || ''} onChange={(e) => setCreateForm({ ...createForm, name: e.target.value })} placeholder="Tên" className="w-full rounded-lg border border-[#e2e8f0] px-4 py-3 outline-none focus:border-[#004ac6]" />
+                            <input value={createForm.description || ''} onChange={(e) => setCreateForm({ ...createForm, description: e.target.value })} placeholder="Mô tả" className="w-full rounded-lg border border-[#e2e8f0] px-4 py-3 outline-none focus:border-[#004ac6]" />
+                            <input value={createForm.price || ''} onChange={(e) => setCreateForm({ ...createForm, price: e.target.value })} placeholder="Giá" className="w-full rounded-lg border border-[#e2e8f0] px-4 py-3 outline-none focus:border-[#004ac6]" />
                             <div className="flex justify-end gap-3 pt-2">
-                                <button onClick={() => setShowCreateModal(false)} className="rounded-lg border border-[#e6bdb8] px-4 py-3 text-[14px] font-semibold text-[#5c403c]">Hủy</button>
-                                <button onClick={activeTab === 'packages' ? handleCreatePackage : handleCreateService} className="rounded-lg bg-[#dc2626] px-4 py-3 text-[14px] font-semibold text-white">Lưu</button>
+                                <button onClick={() => setShowCreateModal(false)} className="rounded-lg border border-[#e2e8f0] px-4 py-3 text-[14px] font-semibold text-[#515d81]">Hủy</button>
+                                <button onClick={activeTab === 'packages' ? handleCreatePackage : handleCreateService} className="rounded-lg bg-[#004ac6] px-4 py-3 text-[14px] font-semibold text-white">Lưu</button>
                             </div>
                         </div>
                     </div>

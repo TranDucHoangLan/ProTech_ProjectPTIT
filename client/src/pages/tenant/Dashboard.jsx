@@ -196,14 +196,14 @@ const TenantDashboard = () => {
                         </div>
                     )}
 
-                    {/* Black CTA */}
-                    <div className="bg-black text-white p-6 space-y-4">
+                    {/* Roommate matching is available to tenants only. */}
+                    {user?.role === 'tenant' && <div className="bg-black text-white p-6 space-y-4">
                         <p className="section-label text-gray-500">Khám phá thêm</p>
                         <p className="text-lg font-bold text-white tracking-tight">Tìm bạn cùng phòng phù hợp?</p>
                         <Link to="/tenant/roommates" className="btn-ghost border-white text-white hover:bg-white hover:text-black inline-flex">
                             Tìm ngay <ArrowRight size={13} />
                         </Link>
-                    </div>
+                    </div>}
 
                 </div>
             </div>

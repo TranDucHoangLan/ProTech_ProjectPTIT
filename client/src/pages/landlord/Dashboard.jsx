@@ -16,9 +16,9 @@ const PageHeader = ({ label, title, description, actions }) => (
     <div className="mb-6">
         <div className="flex items-end justify-between">
             <div>
-                {label && <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74] mb-1">{label}</p>}
-                <h1 className="text-[24px] font-semibold text-[#181d1a] leading-8">{title}</h1>
-                {description && <p className="text-sm text-[#3f4944] mt-1">{description}</p>}
+                {label && <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#737686] mb-1">{label}</p>}
+                <h1 className="text-[24px] font-semibold text-[#0c1a3a] leading-8">{title}</h1>
+                {description && <p className="text-sm text-[#434655] mt-1">{description}</p>}
             </div>
             {actions && <div className="flex gap-2">{actions}</div>}
         </div>
@@ -28,7 +28,7 @@ const PageHeader = ({ label, title, description, actions }) => (
 /* ── Alert Banner ── */
 const AlertBanner = ({ type = 'warning', message, actionText, onAction }) => {
     const colors = {
-        warning: { bg: '#fffbeb', border: '#f59e0b', text: '#181d1a', icon: '#f59e0b' },
+        warning: { bg: '#fffbeb', border: '#f59e0b', text: '#0c1a3a', icon: '#f59e0b' },
         info: { bg: '#eff6ff', border: '#3b82f6', text: '#1e40af', icon: '#3b82f6' },
         error: { bg: '#fef2f2', border: '#ef4444', text: '#991b1b', icon: '#ef4444' },
     };
@@ -46,7 +46,7 @@ const AlertBanner = ({ type = 'warning', message, actionText, onAction }) => {
             {actionText && onAction && (
                 <button
                     onClick={onAction}
-                    className="text-[#0f6e56] font-bold text-sm hover:underline"
+                    className="text-[#004ac6] font-bold text-sm hover:underline"
                 >
                     {actionText}
                 </button>
@@ -59,7 +59,7 @@ const AlertBanner = ({ type = 'warning', message, actionText, onAction }) => {
 const StatCard = ({ icon: Icon, iconBg, iconColor, trend, label, value, suffix = '' }) => (
     <div
         className="rounded-[14px] p-4 flex flex-col justify-between h-32 border"
-        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
     >
         <div className="flex justify-between items-start">
             <div
@@ -75,10 +75,10 @@ const StatCard = ({ icon: Icon, iconBg, iconColor, trend, label, value, suffix =
             )}
         </div>
         <div>
-            <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74]">
+            <p className="text-[11.5px] font-semibold uppercase tracking-wider text-[#737686]">
                 {label}
             </p>
-            <p className="text-[20px] font-semibold text-[#181d1a] leading-7">
+            <p className="text-[20px] font-semibold text-[#0c1a3a] leading-7">
                 {value}{suffix}
             </p>
         </div>
@@ -89,27 +89,27 @@ const StatCard = ({ icon: Icon, iconBg, iconColor, trend, label, value, suffix =
 const RevenueBox = ({ amount, progress, goalLabel }) => (
     <div
         className="rounded-[14px] p-5 relative overflow-hidden border"
-        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
     >
         <div className="relative z-10">
-            <p className="text-sm font-semibold text-[#3f4944] mb-1">Tổng thu tháng này</p>
-            <h2 className="text-[36px] font-bold text-[#0f6e56] leading-tight">
+            <p className="text-sm font-semibold text-[#434655] mb-1">Tổng thu tháng này</p>
+            <h2 className="text-[36px] font-bold text-[#004ac6] leading-tight">
                 {amount}
             </h2>
             <div className="mt-4 flex items-center gap-3">
-                <div className="h-2 w-48 rounded-full overflow-hidden" style={{ backgroundColor: '#ebefeb' }}>
+                <div className="h-2 w-48 rounded-full overflow-hidden" style={{ backgroundColor: '#f1f4fb' }}>
                     <div
                         className="h-full rounded-full"
-                        style={{ width: `${progress}%`, backgroundColor: '#0f6e56' }}
+                        style={{ width: `${progress}%`, backgroundColor: '#004ac6' }}
                     />
                 </div>
-                <span className="text-[11.5px] text-[#6f7a74]">{goalLabel}</span>
+                <span className="text-[11.5px] text-[#737686]">{goalLabel}</span>
             </div>
         </div>
         <div
             className="absolute right-0 top-0 h-full w-1/3 opacity-5 pointer-events-none flex items-center justify-center"
         >
-            <TrendingUp style={{ width: 120, height: 120, color: '#0f6e56' }} />
+            <TrendingUp style={{ width: 120, height: 120, color: '#004ac6' }} />
         </div>
     </div>
 );
@@ -117,21 +117,21 @@ const RevenueBox = ({ amount, progress, goalLabel }) => (
 /* ── Activity Item ── */
 const ActivityItem = ({ icon: Icon, iconColor, title, subtitle, time, onClick }) => (
     <div
-        className="px-6 py-4 flex items-center gap-4 cursor-pointer hover:bg-[#f9fbfc] transition-colors border-b"
-        style={{ borderColor: '#bec9c3' }}
+        className="px-6 py-4 flex items-center gap-4 cursor-pointer hover:bg-[#faf8ff] transition-colors border-b"
+        style={{ borderColor: '#e2e8f0' }}
         onClick={onClick}
     >
         <div
             className="w-10 h-10 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: '#ebefeb' }}
+            style={{ backgroundColor: '#f1f4fb' }}
         >
             <Icon style={{ color: iconColor, width: 18, height: 18 }} />
         </div>
         <div className="flex-1">
-            <p className="text-sm font-medium text-[#181d1a]">{title}</p>
-            <p className="text-[11.5px] text-[#6f7a74]">{subtitle}</p>
+            <p className="text-sm font-medium text-[#0c1a3a]">{title}</p>
+            <p className="text-[11.5px] text-[#737686]">{subtitle}</p>
         </div>
-        <span className="text-[11.5px] text-[#6f7a74]">{time}</span>
+        <span className="text-[11.5px] text-[#737686]">{time}</span>
     </div>
 );
 
@@ -140,13 +140,13 @@ const QuickAccessBtn = ({ icon: Icon, label, onClick }) => (
     <button
         onClick={onClick}
         className="rounded-[14px] p-4 flex flex-col items-center justify-center gap-2 hover:bg-[#f0fdf8] transition-all border-dashed"
-        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
     >
         <Icon
             className="transition-transform"
-            style={{ color: '#0f6e56', width: 32, height: 32 }}
+            style={{ color: '#004ac6', width: 32, height: 32 }}
         />
-        <span className="text-sm font-bold text-[#181d1a]">{label}</span>
+        <span className="text-sm font-bold text-[#0c1a3a]">{label}</span>
     </button>
 );
 
@@ -154,15 +154,15 @@ const QuickAccessBtn = ({ icon: Icon, label, onClick }) => (
 const MapPlaceholder = ({ location, stats }) => (
     <div
         className="rounded-[14px] p-4 border"
-        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
     >
         <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-[#181d1a]">Vị trí tài sản</h3>
-            <MapPin style={{ color: '#6f7a74', width: 20, height: 20 }} />
+            <h3 className="text-sm font-bold text-[#0c1a3a]">Vị trí tài sản</h3>
+            <MapPin style={{ color: '#737686', width: 20, height: 20 }} />
         </div>
         <div
             className="aspect-square rounded-lg relative overflow-hidden"
-            style={{ backgroundColor: '#e5e9e5' }}
+            style={{ backgroundColor: '#e2e8f0' }}
         >
             <img
                 src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=400&h=400&fit=crop"
@@ -171,7 +171,7 @@ const MapPlaceholder = ({ location, stats }) => (
             />
             <div
                 className="absolute inset-0"
-                style={{ backgroundColor: 'rgba(15, 110, 86, 0.1)' }}
+                style={{ backgroundColor: 'rgba(0, 74, 198, 0.1)' }}
             />
             <div
                 className="absolute bottom-4 left-4 right-4 p-3 rounded-lg border"
@@ -181,8 +181,8 @@ const MapPlaceholder = ({ location, stats }) => (
                     borderColor: 'rgba(255, 255, 255, 0.2)'
                 }}
             >
-                <p className="text-[11.5px] font-bold text-[#181d1a]">{location}</p>
-                <p className="text-[10px] text-[#6f7a74]">{stats}</p>
+                <p className="text-[11.5px] font-bold text-[#0c1a3a]">{location}</p>
+                <p className="text-[10px] text-[#737686]">{stats}</p>
             </div>
         </div>
     </div>
@@ -191,24 +191,24 @@ const MapPlaceholder = ({ location, stats }) => (
 /* ── Satisfaction Card ── */
 const SatisfactionCard = ({ rating, reviewCount }) => (
     <div
-        className="rounded-[14px] p-4"
-        style={{ backgroundColor: '#0f1f1a' }}
+        className="rounded-[14px] p-4 border border-[#e2e8f0]"
+        style={{ backgroundColor: '#ffffff' }}
     >
-        <p className="text-[11.5px] font-semibold uppercase mb-1" style={{ color: 'rgba(160, 243, 212, 0.7)' }}>
+        <p className="text-[11.5px] font-semibold uppercase mb-1" style={{ color: '#737686' }}>
             Chỉ số hài lòng
         </p>
         <div className="flex items-end gap-3">
-            <h4 className="text-[48px] font-bold leading-none" style={{ color: '#ffffff' }}>
+            <h4 className="text-[48px] font-bold leading-none" style={{ color: '#004ac6' }}>
                 {rating}
             </h4>
             <div className="flex items-center mb-1 gap-0.5">
                 {[1, 2, 3, 4].map((i) => (
-                    <Star key={i} style={{ color: '#a0f3d4', width: 14, height: 14, fill: '#a0f3d4' }} />
+                    <Star key={i} style={{ color: '#004ac6', width: 14, height: 14, fill: '#004ac6' }} />
                 ))}
-                <Star style={{ color: '#a0f3d4', width: 14, height: 14, fill: 'none', stroke: '#a0f3d4', strokeWidth: 2 }} />
+                <Star style={{ color: '#004ac6', width: 14, height: 14, fill: 'none', stroke: '#004ac6', strokeWidth: 2 }} />
             </div>
         </div>
-        <p className="text-sm mt-2" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>
+        <p className="text-sm mt-2" style={{ color: '#737686' }}>
             Dựa trên {reviewCount} phản hồi từ khách thuê trong tháng qua.
         </p>
     </div>
@@ -237,17 +237,17 @@ const ReputationScoreCard = ({ score = 100 }) => {
     return (
         <div
             className="rounded-[14px] p-5 border"
-            style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+            style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
         >
             <div className="flex items-center justify-between">
-                <span className="text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74]">Thang điểm uy tín</span>
-                <span className="text-[#6f7a74] text-xs font-semibold">Tối đa: 100</span>
+                <span className="text-[11.5px] font-semibold uppercase tracking-wider text-[#737686]">Thang điểm uy tín</span>
+                <span className="text-[#737686] text-xs font-semibold">Tối đa: 100</span>
             </div>
             
             <div className="mt-4 flex items-center gap-4">
                 <div className="relative flex items-center justify-center shrink-0">
                     <svg className="w-16 h-16 transform -rotate-90">
-                        <circle cx="32" cy="32" r="26" fill="none" stroke="#ebefeb" strokeWidth="5" />
+                        <circle cx="32" cy="32" r="26" fill="none" stroke="#f1f4fb" strokeWidth="5" />
                         <circle cx="32" cy="32" r="26" fill="none" stroke={score < 50 ? '#ef4444' : score < 70 ? '#f59e0b' : score < 90 ? '#3b82f6' : '#10b981'} strokeWidth="5" 
                                 strokeDasharray={163.36} 
                                 strokeDashoffset={163.36 - (score / 100) * 163.36}
@@ -260,7 +260,7 @@ const ReputationScoreCard = ({ score = 100 }) => {
                     <span className={`inline-block text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${colorClass}`}>
                         {text}
                     </span>
-                    <p className="mt-1.5 text-xs text-[#6f7a74] leading-relaxed">
+                    <p className="mt-1.5 text-xs text-[#737686] leading-relaxed">
                         {desc}
                     </p>
                 </div>
@@ -278,37 +278,37 @@ const TopAppBar = ({ user }) => {
             className="fixed top-0 right-0 h-20 flex items-center justify-between px-6 z-40 border-b"
             style={{
                 width: 'calc(100% - 260px)',
-                backgroundColor: '#f7faf6',
-                borderColor: '#bec9c3'
+                backgroundColor: '#faf8ff',
+                borderColor: '#e2e8f0'
             }}
         >
             <div className="flex items-center gap-8">
-                <h2 className="text-[20px] font-semibold text-[#181d1a]">Trang chủ</h2>
+                <h2 className="text-[20px] font-semibold text-[#0c1a3a]">Trang chủ</h2>
                 <div className="hidden md:flex gap-6">
-                    <Link to="/landlord/properties" className="text-[#0f6e56] font-bold border-b-2 border-[#0f6e56] pb-1 text-sm">
+                    <Link to="/landlord/properties" className="text-[#004ac6] font-bold border-b-2 border-[#004ac6] pb-1 text-sm">
                         Tất cả tòa nhà
                     </Link>
-                    <Link to="/landlord/reports" className="text-[#3f4944] font-medium hover:text-[#0f6e56] transition-all text-sm">
+                    <Link to="/landlord/reports" className="text-[#434655] font-medium hover:text-[#004ac6] transition-all text-sm">
                         Báo cáo tháng
                     </Link>
                 </div>
             </div>
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                    <Link to="/landlord/notifications" className="p-1.5 rounded-full hover:bg-[#ebefeb] transition-all relative">
-                        <Bell style={{ color: '#3f4944', width: 22, height: 22 }} />
+                    <Link to="/landlord/notifications" className="p-1.5 rounded-full hover:bg-[#f1f4fb] transition-all relative">
+                        <Bell style={{ color: '#434655', width: 22, height: 22 }} />
                     </Link>
-                    <Link to="/landlord/profile" className="p-1.5 rounded-full hover:bg-[#ebefeb] transition-all">
-                        <CircleQuestionMark style={{ color: '#3f4944', width: 22, height: 22 }} />
+                    <Link to="/landlord/profile" className="p-1.5 rounded-full hover:bg-[#f1f4fb] transition-all">
+                        <CircleQuestionMark style={{ color: '#434655', width: 22, height: 22 }} />
                     </Link>
-                    <Link to="/landlord/profile" className="p-1.5 rounded-full hover:bg-[#ebefeb] transition-all">
-                        <User style={{ color: '#3f4944', width: 22, height: 22 }} />
+                    <Link to="/landlord/profile" className="p-1.5 rounded-full hover:bg-[#f1f4fb] transition-all">
+                        <User style={{ color: '#434655', width: 22, height: 22 }} />
                     </Link>
                 </div>
                 <Link
                     to="/landlord/properties/new"
                     className="text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-all"
-                    style={{ backgroundColor: '#0f6e56' }}
+                    style={{ backgroundColor: '#004ac6' }}
                 >
                     + Thêm tòa nhà
                 </Link>
@@ -383,7 +383,7 @@ const LandlordDashboard = () => {
         <div
             className="min-h-screen pb-20"
             style={{
-                backgroundColor: '#f7faf6',
+                backgroundColor: '#faf8ff',
                 fontFamily: "'Be Vietnam Pro', sans-serif",
                 paddingTop: '80px',
                 paddingLeft: '24px',
@@ -398,15 +398,15 @@ const LandlordDashboard = () => {
             {/* Welcome Header */}
             <section className="flex justify-between items-end mb-6">
                 <div>
-                    <h1 className="text-[32px] font-bold text-[#181d1a] leading-10 tracking-tight">
+                    <h1 className="text-[32px] font-bold text-[#0c1a3a] leading-10 tracking-tight">
                         Xin chào, {getUserName()}
                     </h1>
-                    <p className="text-sm text-[#3f4944]">
+                    <p className="text-sm text-[#434655]">
                         Chào mừng trở lại!{unread > 0 ? ` Bạn có ${unread} thông báo mới.` : ' Chúc bạn một ngày làm việc hiệu quả.'}
                     </p>
                 </div>
                 <div className="text-right">
-                    <p className="text-sm text-[#6f7a74] font-medium">
+                    <p className="text-sm text-[#737686] font-medium">
                         {new Date().toLocaleDateString('vi-VN', {
                             weekday: 'long',
                             day: 'numeric',
@@ -442,8 +442,8 @@ const LandlordDashboard = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                         <StatCard
                             icon={TrendingUp}
-                            iconBg="#e6f7f2"
-                            iconColor="#0f6e56"
+                            iconBg="#eff4ff"
+                            iconColor="#004ac6"
                             trend="+12%"
                             label="Doanh thu"
                             value={fmt(stats?.totalRevenue || 0)}
@@ -486,16 +486,16 @@ const LandlordDashboard = () => {
                     {/* Recent Activity */}
                     <div
                         className="rounded-[14px] overflow-hidden border"
-                        style={{ backgroundColor: '#ffffff', borderColor: '#bec9c3' }}
+                        style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
                     >
                         <div
                             className="px-6 py-4 border-b flex justify-between items-center"
-                            style={{ borderColor: '#bec9c3' }}
+                            style={{ borderColor: '#e2e8f0' }}
                         >
-                            <h3 className="text-sm font-bold text-[#181d1a]">Hoạt động gần đây</h3>
+                            <h3 className="text-sm font-bold text-[#0c1a3a]">Hoạt động gần đây</h3>
                             <Link
                                 to="/landlord/notifications"
-                                className="text-[#0f6e56] text-[11.5px] font-bold hover:underline"
+                                className="text-[#004ac6] text-[11.5px] font-bold hover:underline"
                             >
                                 Xem tất cả
                             </Link>
@@ -503,11 +503,11 @@ const LandlordDashboard = () => {
                         <div>
                             {notifications.length > 0 ? notifications.map((n, i) => {
                                 const iconMap = {
-                                    booking: { icon: Calendar, color: '#0f6e56' },
+                                    booking: { icon: Calendar, color: '#004ac6' },
                                     bill: { icon: CheckCircle, color: '#16a34a' },
                                     alert: { icon: TriangleAlert, color: '#f59e0b' },
                                 };
-                                const { icon: Icon, color } = iconMap[n.type] || { icon: Receipt, color: '#0f6e56' };
+                                const { icon: Icon, color } = iconMap[n.type] || { icon: Receipt, color: '#004ac6' };
 
                                 return (
                                     <ActivityItem
@@ -524,7 +524,7 @@ const LandlordDashboard = () => {
                                 <>
                                     <ActivityItem
                                         icon={FileText}
-                                        iconColor="#0f6e56"
+                                        iconColor="#004ac6"
                                         title="Hợp đồng mới được ký - Căn hộ A102"
                                         subtitle="Bởi Nguyễn Văn B"
                                         time="10 phút trước"
@@ -540,7 +540,7 @@ const LandlordDashboard = () => {
                                     />
                                     <ActivityItem
                                         icon={CheckCircle}
-                                        iconColor="#005440"
+                                        iconColor="#003b9e"
                                         title="Thanh toán hóa đơn tháng 11 thành công"
                                         subtitle="Hợp đồng #1224"
                                         time="2 giờ trước"

@@ -25,9 +25,9 @@ const LIMIT = 10;
 const fmt = (v) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(v || 0);
 
 const StatBox = ({ label, value, borderRight }) => (
-    <div className="flex flex-col items-center justify-center px-4" style={{ borderRight: borderRight ? '1px solid #bec9c3' : 'none' }}>
-        <p className="text-[20px] font-bold text-[#181d1a]">{value}</p>
-        <p className="mt-1 text-center text-[11.5px] text-[#6f7a74]">{label}</p>
+    <div className="flex flex-col items-center justify-center px-4" style={{ borderRight: borderRight ? '1px solid #e2e8f0' : 'none' }}>
+        <p className="text-[20px] font-bold text-[#0c1a3a]">{value}</p>
+        <p className="mt-1 text-center text-[11.5px] text-[#737686]">{label}</p>
     </div>
 );
 
@@ -43,33 +43,33 @@ const BuildingRow = ({ building, onClick }) => {
     return (
         <button
             type="button"
-            className="flex w-full items-center gap-4 border-b p-4 text-left transition-all hover:bg-[#f9fbfc]"
-            style={{ borderColor: '#bec9c3' }}
+            className="flex w-full items-center gap-4 border-b p-4 text-left transition-all hover:bg-[#faf8ff]"
+            style={{ borderColor: '#e2e8f0' }}
             onClick={onClick}
         >
             {image ? (
                 <img src={image} alt={name} className="h-[60px] w-[60px] rounded-lg object-cover" />
             ) : (
-                <div className="flex h-[60px] w-[60px] items-center justify-center rounded-lg bg-[#ebefeb]">
-                    <WalletIcon className="h-6 w-6 text-[#6f7a74]" />
+                <div className="flex h-[60px] w-[60px] items-center justify-center rounded-lg bg-[#f1f4fb]">
+                    <WalletIcon className="h-6 w-6 text-[#737686]" />
                 </div>
             )}
             <div className="min-w-0 flex-1">
-                <h5 className="truncate text-[14px] font-semibold text-[#181d1a]">{name}</h5>
-                <p className="truncate text-[11.5px] text-[#6f7a74]">{address}</p>
+                <h5 className="truncate text-[14px] font-semibold text-[#0c1a3a]">{name}</h5>
+                <p className="truncate text-[11.5px] text-[#737686]">{address}</p>
             </div>
             <div className="flex w-48 flex-col items-end gap-1">
                 <div className="flex items-center gap-2">
                     <span className="rounded-full px-2 py-0.5 text-[11px] font-semibold" style={{ backgroundColor: statusBg, color: statusColor }}>
                         {statusLabel}
                     </span>
-                    <span className="text-[11px] text-[#6f7a74]">{occupancy}%</span>
+                    <span className="text-[11px] text-[#737686]">{occupancy}%</span>
                 </div>
-                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#ebefeb]">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#f1f4fb]">
                     <div className="h-full rounded-full" style={{ width: `${occupancy}%`, backgroundColor: statusColor }} />
                 </div>
             </div>
-            <span className="rounded-lg p-2 text-[#6f7a74] transition-colors hover:bg-[#ebefeb]">⋮</span>
+            <span className="rounded-lg p-2 text-[#737686] transition-colors hover:bg-[#f1f4fb]">⋮</span>
         </button>
     );
 };
@@ -79,10 +79,10 @@ const TransactionRow = ({ item, onClick }) => {
     const title = item.listing_title || item.description || item.title || (isPositive ? 'Nạp tiền vào ví' : 'Thanh toán');
 
     return (
-        <tr className="cursor-pointer transition-colors hover:bg-[#f9fbfc]" onClick={onClick}>
+        <tr className="cursor-pointer transition-colors hover:bg-[#faf8ff]" onClick={onClick}>
             <td className="px-4 py-4">
-                <p className="text-[14px] font-semibold text-[#181d1a]">{title}</p>
-                <p className="text-[11px] text-[#6f7a74]">
+                <p className="text-[14px] font-semibold text-[#0c1a3a]">{title}</p>
+                <p className="text-[11px] text-[#737686]">
                     {item.created_at ? new Date(item.created_at).toLocaleString('vi-VN') : ''}
                 </p>
             </td>
@@ -140,23 +140,23 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-[#e2e8f0] bg-[#f8f9ff] px-6 py-4">
                     <div>
-                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">Nạp tiền vào ví</p>
+                        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">Nạp tiền vào ví</p>
                         <h3 className="text-[20px] font-bold text-[#0b1c30]">Chọn phương thức thanh toán</h3>
                     </div>
-                    <button onClick={onClose} className="rounded-lg p-2 hover:bg-[#eff4ff]"><X className="h-5 w-5 text-[#5c403c]" /></button>
+                    <button onClick={onClose} className="rounded-lg p-2 hover:bg-[#eff4ff]"><X className="h-5 w-5 text-[#515d81]" /></button>
                 </div>
 
                 {/* Method tabs */}
                 <div className="flex gap-2 border-b border-[#e2e8f0] bg-[#f8f9ff] px-6 pb-0">
                     <button
                         onClick={() => setMethod('vietqr')}
-                        className={`flex items-center gap-2 border-b-2 px-4 py-3 text-[13px] font-semibold transition-all ${method === 'vietqr' ? 'border-[#0f6e56] text-[#0f6e56]' : 'border-transparent text-[#6f7a74] hover:text-[#0b1c30]'}`}
+                        className={`flex items-center gap-2 border-b-2 px-4 py-3 text-[13px] font-semibold transition-all ${method === 'vietqr' ? 'border-[#004ac6] text-[#004ac6]' : 'border-transparent text-[#737686] hover:text-[#0b1c30]'}`}
                     >
                         <QrCode className="h-4 w-4" /> VietQR
                     </button>
                     <button
                         onClick={() => setMethod('vnpay')}
-                        className={`flex items-center gap-2 border-b-2 px-4 py-3 text-[13px] font-semibold transition-all ${method === 'vnpay' ? 'border-[#0066b2] text-[#0066b2]' : 'border-transparent text-[#6f7a74] hover:text-[#0b1c30]'}`}
+                        className={`flex items-center gap-2 border-b-2 px-4 py-3 text-[13px] font-semibold transition-all ${method === 'vnpay' ? 'border-[#0066b2] text-[#0066b2]' : 'border-transparent text-[#737686] hover:text-[#0b1c30]'}`}
                     >
                         <Banknote className="h-4 w-4" /> VNPAY
                     </button>
@@ -166,12 +166,12 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                     {/* Left: Amount selector */}
                     <div className="space-y-5">
                         <div>
-                            <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">Số tiền</label>
-                            <input type="number" min="10000" step="1000" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full rounded-2xl border border-[#e6bdb8] px-4 py-3 text-sm outline-none focus:border-[#dc2626]" placeholder="Nhập số tiền" />
+                            <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">Số tiền</label>
+                            <input type="number" min="10000" step="1000" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full rounded-2xl border border-[#e2e8f0] px-4 py-3 text-sm outline-none focus:border-[#dc2626]" placeholder="Nhập số tiền" />
                         </div>
                         <div className="grid grid-cols-2 gap-2">
                             {presets.map((item) => (
-                                <button key={item} type="button" onClick={() => setAmount(String(item))} className="rounded-2xl border border-[#e6bdb8] px-4 py-3 text-sm font-semibold text-[#0b1c30] hover:border-[#dc2626] hover:bg-[#fef2f2]">{fmt(item)}</button>
+                                <button key={item} type="button" onClick={() => setAmount(String(item))} className="rounded-2xl border border-[#e2e8f0] px-4 py-3 text-sm font-semibold text-[#0b1c30] hover:border-[#dc2626] hover:bg-[#fef2f2]">{fmt(item)}</button>
                             ))}
                         </div>
 
@@ -187,7 +187,7 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                                 </ul>
                                 <div className="flex items-center gap-2 rounded-xl border border-[#bbd6f5] bg-white px-3 py-2">
                                     <span className="rounded bg-[#0066b2] px-2 py-0.5 text-[10px] font-black tracking-widest text-white">VNPAY</span>
-                                    <span className="text-[11px] text-[#5c403c]">Sandbox · Môi trường kiểm thử</span>
+                                    <span className="text-[11px] text-[#515d81]">Sandbox · Môi trường kiểm thử</span>
                                 </div>
                             </div>
                         )}
@@ -199,27 +199,27 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#5c403c]">VietQR</p>
+                                        <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#515d81]">VietQR</p>
                                         <h4 className="text-[18px] font-bold text-[#0b1c30]">Quét mã để nạp tiền</h4>
                                     </div>
                                     <span className="rounded-full bg-[#fef2f2] px-3 py-1 text-[11px] font-bold text-[#dc2626]">Tự động đối soát</span>
                                 </div>
-                                <div className="flex min-h-[260px] items-center justify-center rounded-2xl border border-dashed border-[#e6bdb8] bg-white p-6">
+                                <div className="flex min-h-[260px] items-center justify-center rounded-2xl border border-dashed border-[#e2e8f0] bg-white p-6">
                                     <div className="text-center">
                                         <div className="mx-auto mb-4 flex h-40 w-40 items-center justify-center rounded-2xl border border-[#e2e8f0] bg-[#f8f9ff] p-3">
                                             <img src={paymentData?.qrCodeUrl || `https://img.vietqr.io/image/TCB-1080938386-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(transferContent)}`} alt="VietQR" className="max-h-36 w-full object-contain" />
                                         </div>
-                                        <p className="text-[12px] text-[#5c403c]">Quét mã VietQR và chuyển khoản đúng nội dung bên dưới.</p>
+                                        <p className="text-[12px] text-[#515d81]">Quét mã VietQR và chuyển khoản đúng nội dung bên dưới.</p>
                                     </div>
                                 </div>
-                                <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 text-sm text-[#5c403c]">
+                                <div className="rounded-2xl border border-[#e2e8f0] bg-white p-4 text-sm text-[#515d81]">
                                     <p className="font-semibold text-[#0b1c30]">Thông tin chuyển khoản</p>
                                     <p>Ngân hàng: {paymentData?.bank?.bankName || 'Techcombank'}</p>
                                     <p>Chủ tài khoản: {paymentData?.bank?.accountName || 'BUI DUC HUY'}</p>
                                     <p>Số tài khoản: {paymentData?.bank?.accountNumber || '1080938386'}</p>
                                     <div className="mt-2 flex items-center gap-2">
                                         <code className="rounded bg-[#f8f9ff] px-2 py-1 text-[12px]">{transferContent}</code>
-                                        <button onClick={copyContent} className="rounded-lg border border-[#e6bdb8] px-3 py-2 text-[12px] font-semibold text-[#0b1c30]">{copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}</button>
+                                        <button onClick={copyContent} className="rounded-lg border border-[#e2e8f0] px-3 py-2 text-[12px] font-semibold text-[#0b1c30]">{copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}</button>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +274,7 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                 {/* Footer actions for VietQR */}
                 {method === 'vietqr' && (
                     <div className="flex gap-3 border-t border-[#e2e8f0] px-6 py-4">
-                        <button onClick={onClose} className="flex-1 rounded-2xl border border-[#e6bdb8] px-5 py-3 font-semibold text-[#5c403c] hover:bg-[#f8f9ff]">Hủy</button>
+                        <button onClick={onClose} className="flex-1 rounded-2xl border border-[#e2e8f0] px-5 py-3 font-semibold text-[#515d81] hover:bg-[#f8f9ff]">Hủy</button>
                         <button
                             onClick={async () => {
                                 const result = await onSubmit('vietqr');
@@ -291,16 +291,16 @@ const TopUpModal = ({ isOpen, onClose, onSubmit, amount, setAmount, loading, onR
                 {/* Footer actions for VNPAY */}
                 {method === 'vnpay' && (
                     <div className="flex gap-3 border-t border-[#e2e8f0] px-6 py-4">
-                        <button onClick={onClose} className="flex-1 rounded-2xl border border-[#e6bdb8] px-5 py-3 font-semibold text-[#5c403c] hover:bg-[#f8f9ff]">Hủy</button>
+                        <button onClick={onClose} className="flex-1 rounded-2xl border border-[#e2e8f0] px-5 py-3 font-semibold text-[#515d81] hover:bg-[#f8f9ff]">Hủy</button>
                     </div>
                 )}
 
                 {topupRecord && method === 'vietqr' && (
-                    <div className="border-t border-[#e2e8f0] px-6 py-4 text-sm text-[#5c403c]">
+                    <div className="border-t border-[#e2e8f0] px-6 py-4 text-sm text-[#515d81]">
                         <p className="font-semibold text-[#0b1c30]">Trạng thái yêu cầu nạp</p>
                         <p>Mã tham chiếu: {topupRecord.referenceCode || topupRecord.reference_code}</p>
                         <p>Trạng thái: {topupRecord.status || 'pending'}</p>
-                        <button onClick={onRefreshStatus} className="mt-2 rounded-lg border border-[#e6bdb8] px-3 py-2 text-[12px] font-semibold text-[#0b1c30]">Làm mới trạng thái</button>
+                        <button onClick={onRefreshStatus} className="mt-2 rounded-lg border border-[#e2e8f0] px-3 py-2 text-[12px] font-semibold text-[#0b1c30]">Làm mới trạng thái</button>
                     </div>
                 )}
             </div>
@@ -400,7 +400,7 @@ const Wallet = () => {
     if (loadingMeta) {
         return (
             <div className="flex min-h-[60vh] items-center justify-center">
-                <Loader className="h-6 w-6 animate-spin text-[#bec9c3]" />
+                <Loader className="h-6 w-6 animate-spin text-[#e2e8f0]" />
             </div>
         );
     }
@@ -418,12 +418,12 @@ const Wallet = () => {
     const transactionsToShow = wallet.history || [];
 
     return (
-        <div className="min-h-screen bg-[#f7faf6] px-6 pb-20 pt-20 font-['Be_Vietnam_Pro',sans-serif]">
+        <div className="min-h-screen bg-[#faf8ff] px-6 pb-20 pt-20 font-['Be_Vietnam_Pro',sans-serif]">
             <div className="mx-auto max-w-[1280px]">
                 <div className="mb-6 flex items-end justify-between">
                     <div>
-                        <p className="mb-1 text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74]">Tài chính</p>
-                        <h1 className="text-[24px] font-semibold leading-8 text-[#181d1a]">Ví & Thanh toán</h1>
+                        <p className="mb-1 text-[11.5px] font-semibold uppercase tracking-wider text-[#737686]">Tài chính</p>
+                        <h1 className="text-[24px] font-semibold leading-8 text-[#0c1a3a]">Ví & Thanh toán</h1>
                     </div>
                 </div>
 
@@ -437,7 +437,7 @@ const Wallet = () => {
                             <Banknote className="h-12 w-12 opacity-40" />
                         </div>
                         <div className="mt-6 flex gap-3">
-                            <button onClick={() => setShowTopUp(true)} className="flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-[14px] font-semibold text-[#0f6e56] transition-all hover:opacity-90">
+                            <button onClick={() => setShowTopUp(true)} className="flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-[14px] font-semibold text-[#004ac6] transition-all hover:opacity-90">
                                 <Plus className="h-4 w-4" /> Nạp tiền
                             </button>
                             <button className="rounded-lg border border-white/30 px-6 py-3 text-[14px] font-semibold text-white transition-all hover:bg-white/10">
@@ -446,7 +446,7 @@ const Wallet = () => {
                         </div>
                     </div>
 
-                    <div className="col-span-12 flex items-center justify-center rounded-xl border bg-white lg:col-span-5" style={{ borderColor: '#bec9c3', minHeight: '240px' }}>
+                    <div className="col-span-12 flex items-center justify-center rounded-xl border bg-white lg:col-span-5" style={{ borderColor: '#e2e8f0', minHeight: '240px' }}>
                         <div className="grid h-full w-full grid-cols-3">
                             <StatBox label="Giao dịch tháng này" value={stats.txCount} borderRight />
                             <StatBox label="Chi tiêu tháng này" value={stats.expense} borderRight />
@@ -458,53 +458,53 @@ const Wallet = () => {
                 <div className="mb-8 grid grid-cols-12 gap-6">
                     <div className="col-span-12 lg:col-span-8">
                         <div className="mb-4 flex items-center justify-between">
-                            <h4 className="text-[20px] font-semibold text-[#181d1a]">Quản lý Tòa nhà & Thanh toán</h4>
-                            <button className="text-[14px] font-semibold text-[#005440] hover:underline">Xem tất cả</button>
+                            <h4 className="text-[20px] font-semibold text-[#0c1a3a]">Quản lý Tòa nhà & Thanh toán</h4>
+                            <button className="text-[14px] font-semibold text-[#003b9e] hover:underline">Xem tất cả</button>
                         </div>
-                        <div className="overflow-hidden rounded-xl border bg-white" style={{ borderColor: '#bec9c3' }}>
+                        <div className="overflow-hidden rounded-xl border bg-white" style={{ borderColor: '#e2e8f0' }}>
                             {listingLoading ? (
-                                <div className="p-6 text-sm text-[#6f7a74]">Đang tải tòa nhà...</div>
+                                <div className="p-6 text-sm text-[#737686]">Đang tải tòa nhà...</div>
                             ) : listings.length > 0 ? (
                                 listings.map((b, i) => <BuildingRow key={b.id || i} building={b} onClick={() => {}} />)
                             ) : (
-                                <div className="p-6 text-sm text-[#6f7a74]">Chưa có dữ liệu tòa nhà.</div>
+                                <div className="p-6 text-sm text-[#737686]">Chưa có dữ liệu tòa nhà.</div>
                             )}
                         </div>
                     </div>
 
                     <div className="col-span-12 lg:col-span-4">
                         <div className="mb-4 flex items-center justify-between">
-                            <h4 className="text-[20px] font-semibold text-[#181d1a]">Lịch sử giao dịch</h4>
+                            <h4 className="text-[20px] font-semibold text-[#0c1a3a]">Lịch sử giao dịch</h4>
                         </div>
-                        <div className="overflow-hidden rounded-xl border bg-white" style={{ borderColor: '#bec9c3' }}>
+                        <div className="overflow-hidden rounded-xl border bg-white" style={{ borderColor: '#e2e8f0' }}>
                             {txLoading ? (
-                                <div className="p-6 text-sm text-[#6f7a74]">Đang tải giao dịch...</div>
+                                <div className="p-6 text-sm text-[#737686]">Đang tải giao dịch...</div>
                             ) : (
                                 <>
                                     <table className="w-full text-left">
                                         <thead>
-                                            <tr className="border-b" style={{ backgroundColor: '#f1f4f1', borderColor: '#bec9c3' }}>
-                                                <th className="px-4 py-3 text-[11px] font-semibold text-[#6f7a74]">Chi tiết</th>
-                                                <th className="px-4 py-3 text-right text-[11px] font-semibold text-[#6f7a74]">Số tiền</th>
+                                            <tr className="border-b" style={{ backgroundColor: '#f3f5fc', borderColor: '#e2e8f0' }}>
+                                                <th className="px-4 py-3 text-[11px] font-semibold text-[#737686]">Chi tiết</th>
+                                                <th className="px-4 py-3 text-right text-[11px] font-semibold text-[#737686]">Số tiền</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y" style={{ borderColor: '#bec9c3' }}>
+                                        <tbody className="divide-y" style={{ borderColor: '#e2e8f0' }}>
                                             {transactionsToShow.length > 0 ? transactionsToShow.map(item => (
                                                 <TransactionRow key={item.payment_id} item={item} onClick={() => setSelectedTx(item)} />
                                             )) : (
-                                                <tr><td colSpan={2} className="p-6 text-center text-sm text-[#6f7a74]">Chưa có giao dịch</td></tr>
+                                                <tr><td colSpan={2} className="p-6 text-center text-sm text-[#737686]">Chưa có giao dịch</td></tr>
                                             )}
                                         </tbody>
                                     </table>
-                                    <div className="flex items-center justify-between border-t px-6 py-4" style={{ borderColor: '#bec9c3', backgroundColor: '#f8fafc' }}>
-                                        <span className="text-[11px] text-[#6f7a74]">Tổng {txTotal} giao dịch</span>
+                                    <div className="flex items-center justify-between border-t px-6 py-4" style={{ borderColor: '#e2e8f0', backgroundColor: '#f8fafc' }}>
+                                        <span className="text-[11px] text-[#737686]">Tổng {txTotal} giao dịch</span>
                                         <div className="flex items-center gap-2">
-                                            <button onClick={() => setTxPage(p => Math.max(1, p - 1))} disabled={txPage === 1} className="flex h-8 w-8 items-center justify-center rounded border disabled:opacity-30" style={{ borderColor: '#bec9c3' }}>
-                                                <ChevronLeft className="h-4 w-4 text-[#6f7a74]" />
+                                            <button onClick={() => setTxPage(p => Math.max(1, p - 1))} disabled={txPage === 1} className="flex h-8 w-8 items-center justify-center rounded border disabled:opacity-30" style={{ borderColor: '#e2e8f0' }}>
+                                                <ChevronLeft className="h-4 w-4 text-[#737686]" />
                                             </button>
-                                            <span className="min-w-8 rounded bg-[#0f6e56] px-3 py-1 text-center text-[11px] font-bold text-white">{txPage}</span>
-                                            <button onClick={() => setTxPage(p => p + 1)} className="flex h-8 w-8 items-center justify-center rounded border" style={{ borderColor: '#bec9c3' }}>
-                                                <ChevronRight className="h-4 w-4 text-[#6f7a74]" />
+                                            <span className="min-w-8 rounded bg-[#004ac6] px-3 py-1 text-center text-[11px] font-bold text-white">{txPage}</span>
+                                            <button onClick={() => setTxPage(p => p + 1)} className="flex h-8 w-8 items-center justify-center rounded border" style={{ borderColor: '#e2e8f0' }}>
+                                                <ChevronRight className="h-4 w-4 text-[#737686]" />
                                             </button>
                                         </div>
                                     </div>
@@ -515,22 +515,22 @@ const Wallet = () => {
                 </div>
 
                 <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#bec9c3' }}>
-                        <div className="mb-2 flex items-center gap-2 text-[#0f6e56]"><Star className="h-5 w-5" /> <span className="font-semibold">Cá nhân</span></div>
-                        <p className="text-sm text-[#6f7a74]">Quản lý cơ bản</p>
+                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#e2e8f0' }}>
+                        <div className="mb-2 flex items-center gap-2 text-[#004ac6]"><Star className="h-5 w-5" /> <span className="font-semibold">Cá nhân</span></div>
+                        <p className="text-sm text-[#737686]">Quản lý cơ bản</p>
                     </div>
-                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#0f6e56' }}>
-                        <div className="mb-2 flex items-center gap-2 text-[#0f6e56]"><Star className="h-5 w-5" /> <span className="font-semibold">Chuyên nghiệp</span></div>
-                        <p className="text-sm text-[#6f7a74]">Tính năng nâng cao</p>
+                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#004ac6' }}>
+                        <div className="mb-2 flex items-center gap-2 text-[#004ac6]"><Star className="h-5 w-5" /> <span className="font-semibold">Chuyên nghiệp</span></div>
+                        <p className="text-sm text-[#737686]">Tính năng nâng cao</p>
                     </div>
-                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#bec9c3' }}>
-                        <div className="mb-2 flex items-center gap-2 text-[#0f6e56]"><Star className="h-5 w-5" /> <span className="font-semibold">Doanh nghiệp</span></div>
-                        <p className="text-sm text-[#6f7a74]">Tùy chỉnh theo nhu cầu</p>
+                    <div className="relative rounded-xl border bg-white p-6" style={{ borderColor: '#e2e8f0' }}>
+                        <div className="mb-2 flex items-center gap-2 text-[#004ac6]"><Star className="h-5 w-5" /> <span className="font-semibold">Doanh nghiệp</span></div>
+                        <p className="text-sm text-[#737686]">Tùy chỉnh theo nhu cầu</p>
                     </div>
                 </div>
             </div>
 
-            <button onClick={() => setShowTopUp(true)} className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#0f6e56] text-white shadow-lg transition-transform hover:scale-105">
+            <button onClick={() => setShowTopUp(true)} className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#004ac6] text-white shadow-lg transition-transform hover:scale-105">
                 <Plus className="h-7 w-7" />
             </button>
 

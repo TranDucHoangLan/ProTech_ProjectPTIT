@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './ManagementTheme.css';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
@@ -44,12 +45,12 @@ const LandlordLayout = () => {
                         onClick={onLinkClick}
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-all ${
                             isActive
-                                ? 'text-white border-l-[3px] font-bold'
-                                : 'text-white/70 font-normal hover:bg-white/5 hover:text-white'
+                                ? 'text-[#004ac6] border-l-[3px] font-bold'
+                                : 'text-[#515d81] font-normal hover:bg-[#f3f5fc] hover:text-[#004ac6]'
                         }`}
                         style={{
-                            backgroundColor: isActive ? 'rgba(255,255,255,0.1)' : 'transparent',
-                            borderLeftColor: isActive ? '#a0f3d4' : 'transparent',
+                            backgroundColor: isActive ? '#eff4ff' : 'transparent',
+                            borderLeftColor: isActive ? '#004ac6' : 'transparent',
                         }}
                     >
                         <Icon style={{ width: 20, height: 20 }} />
@@ -61,16 +62,16 @@ const LandlordLayout = () => {
     );
 
     const SidebarHeader = ({ showClose }) => (
-        <div className="px-6 py-6 border-b" style={{ borderColor: '#bec9c3' }}>
+        <div className="px-6 py-6 border-b" style={{ borderColor: '#e2e8f0' }}>
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-[24px] font-black text-white leading-8">PropManage</h1>
-                    <p className="text-sm text-white/60 mt-0.5">Quản lý chuyên nghiệp</p>
+                    <h1 className="text-[24px] font-black text-[#004ac6] leading-8">PropManage</h1>
+                    <p className="text-sm text-[#737686] mt-0.5">Quản lý chuyên nghiệp</p>
                 </div>
                 {showClose && (
                     <button
                         onClick={() => setIsSidebarOpen(false)}
-                        className="p-1 text-white/60 hover:text-white"
+                        className="p-1 text-[#737686] hover:text-[#004ac6]"
                     >
                         <X style={{ width: 20, height: 20 }} />
                     </button>
@@ -80,21 +81,21 @@ const LandlordLayout = () => {
     );
 
     const UserInfo = ({ linkPath }) => (
-        <div className="px-6 py-5 border-b" style={{ borderColor: '#bec9c3' }}>
+        <div className="px-6 py-5 border-b" style={{ borderColor: '#e2e8f0' }}>
             <Link to={linkPath} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                 <div
                     className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 border-2"
-                    style={{ borderColor: '#bec9c3' }}
+                    style={{ borderColor: '#e2e8f0' }}
                 >
                     <img
-                        src={user?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'L')}&background=0f6e56&color=fff`}
+                        src={user?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'L')}&background=004ac6&color=fff`}
                         alt="Avatar"
                         className="w-full h-full object-cover"
                     />
                 </div>
                 <div className="min-w-0">
-                    <p className="text-sm font-bold text-white truncate">{user?.full_name || user?.fullName}</p>
-                    <p className="text-[11.5px] font-semibold text-white/60 uppercase tracking-wider">Chủ trọ</p>
+                    <p className="text-sm font-bold text-[#0c1a3a] truncate">{user?.full_name || user?.fullName}</p>
+                    <p className="text-[11.5px] font-semibold text-[#737686] uppercase tracking-wider">Chủ trọ</p>
                 </div>
             </Link>
         </div>
@@ -113,10 +114,10 @@ const LandlordLayout = () => {
     );
 
     const PremiumBtn = () => (
-        <div className="p-4 border-t" style={{ borderColor: '#bec9c3' }}>
+        <div className="p-4 border-t" style={{ borderColor: '#e2e8f0' }}>
             <button
                 className="w-full text-white py-2.5 rounded-lg text-sm font-semibold hover:opacity-90 transition-all flex items-center justify-center gap-2"
-                style={{ backgroundColor: '#0f6e56' }}
+                style={{ backgroundColor: '#004ac6' }}
                 onClick={() => navigate('/landlord/wallet')}
             >
                 <Plus style={{ width: 16, height: 16 }} />
@@ -126,11 +127,11 @@ const LandlordLayout = () => {
     );
 
     return (
-        <div className="flex min-h-screen" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
+        <div className="management-shell flex min-h-screen" style={{ fontFamily: "'Be Vietnam Pro', sans-serif" }}>
             {/* Desktop Sidebar */}
             <aside
                 className="fixed left-0 top-0 h-full w-[260px] flex flex-col z-50 border-r hidden lg:flex"
-                style={{ backgroundColor: '#0f1f1a', borderColor: '#bec9c3' }}
+                style={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
             >
                 <SidebarHeader />
                 <UserInfo linkPath="/landlord/profile" />
@@ -145,16 +146,16 @@ const LandlordLayout = () => {
                 <header
                     className="flex h-16 items-center justify-between px-4 lg:hidden z-40 border-b"
                     style={{
-                        backgroundColor: '#f7faf6',
-                        borderColor: '#bec9c3'
+                        backgroundColor: '#faf8ff',
+                        borderColor: '#e2e8f0'
                     }}
                 >
                     <div className="flex items-center gap-2">
-                        <span className="text-xl font-black text-[#0f6e56]">PropManage</span>
+                        <span className="text-xl font-black text-[#004ac6]">PropManage</span>
                     </div>
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className="p-2 text-[#3f4944] hover:bg-[#ebefeb] rounded-lg transition-all"
+                        className="p-2 text-[#434655] hover:bg-[#f1f4fb] rounded-lg transition-all"
                     >
                         <Menu style={{ width: 24, height: 24 }} />
                     </button>
@@ -170,7 +171,7 @@ const LandlordLayout = () => {
                         />
                         <aside
                             className="absolute left-0 top-0 h-full w-[260px] flex flex-col"
-                            style={{ backgroundColor: '#0f1f1a' }}
+                            style={{ backgroundColor: '#ffffff' }}
                         >
                             <SidebarHeader showClose />
                             <UserInfo linkPath="/landlord/profile" />

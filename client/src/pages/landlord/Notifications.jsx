@@ -5,11 +5,11 @@ import notificationService from '../../services/notificationService';
 /* ── Icon by type ── */
 const NotiIcon = ({ type }) => {
     const map = {
-        booking: { icon: CalendarClock, bg: '#e6f7f2', color: '#0f6e56' },
-        bill: { icon: ReceiptText, bg: 'rgba(160, 243, 212, 0.3)', color: '#005440' },
+        booking: { icon: CalendarClock, bg: '#eff4ff', color: '#004ac6' },
+        bill: { icon: ReceiptText, bg: 'rgba(160, 243, 212, 0.3)', color: '#003b9e' },
         alert: { icon: AlertTriangle, bg: '#fee2e2', color: '#ba1a1a' },
     };
-    const { icon: Icon, bg, color } = map[type] || { icon: Bell, bg: '#ebefeb', color: '#6f7a74' };
+    const { icon: Icon, bg, color } = map[type] || { icon: Bell, bg: '#f1f4fb', color: '#737686' };
     return (
         <div
             className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
@@ -25,7 +25,7 @@ const FilterTab = ({ active, label, onClick }) => (
     <button
         onClick={onClick}
         className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-            active ? 'bg-[#0f6e56] text-white' : 'text-[#3f4944] hover:bg-[#ebefeb]'
+            active ? 'bg-[#004ac6] text-white' : 'text-[#434655] hover:bg-[#f1f4fb]'
         }`}
     >
         {label}
@@ -110,7 +110,7 @@ const Notifications = () => {
         <div
             className="min-h-screen pb-20"
             style={{
-                backgroundColor: '#f7faf6',
+                backgroundColor: '#faf8ff',
                 fontFamily: "'Be Vietnam Pro', sans-serif",
                 paddingTop: '80px',
                 paddingLeft: '24px',
@@ -122,11 +122,11 @@ const Notifications = () => {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
-                    <h3 className="text-[20px] font-semibold text-[#181d1a]">Tất cả thông báo</h3>
+                    <h3 className="text-[20px] font-semibold text-[#0c1a3a]">Tất cả thông báo</h3>
                     {unreadCount > 0 && (
                         <span
                             className="px-3 py-1 rounded-full text-[11.5px] font-semibold text-white"
-                            style={{ backgroundColor: '#0f6e56' }}
+                            style={{ backgroundColor: '#004ac6' }}
                         >
                             {unreadCount} chưa đọc
                         </span>
@@ -135,7 +135,7 @@ const Notifications = () => {
                 {unreadCount > 0 && (
                     <button
                         onClick={markAllAsRead}
-                        className="text-[#005440] text-sm font-semibold hover:underline"
+                        className="text-[#003b9e] text-sm font-semibold hover:underline"
                     >
                         Đánh dấu tất cả là đã đọc
                     </button>
@@ -155,36 +155,36 @@ const Notifications = () => {
             </div>
 
             {/* Notifications List */}
-            <div className="bg-white border rounded-xl overflow-hidden" style={{ borderColor: '#bec9c3' }}>
+            <div className="bg-white border rounded-xl overflow-hidden" style={{ borderColor: '#e2e8f0' }}>
                 {loading ? (
                     <div className="flex justify-center py-20">
-                        <Loader style={{ width: 24, height: 24, color: '#bec9c3' }} className="animate-spin" />
+                        <Loader style={{ width: 24, height: 24, color: '#e2e8f0' }} className="animate-spin" />
                     </div>
                 ) : paginated.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20">
-                        <Bell style={{ width: 48, height: 48, color: '#bec9c3' }} />
-                        <p className="text-sm font-semibold text-[#6f7a74] mt-4">Không có thông báo nào</p>
+                        <Bell style={{ width: 48, height: 48, color: '#e2e8f0' }} />
+                        <p className="text-sm font-semibold text-[#737686] mt-4">Không có thông báo nào</p>
                     </div>
                 ) : (
                     paginated.map(noti => (
                         <div
                             key={noti.noti_id}
                             onClick={() => !noti.is_read && markAsRead(noti.noti_id)}
-                            className="group flex items-start gap-4 p-4 hover:bg-[#f9fbfc] transition-colors border-b cursor-pointer relative"
+                            className="group flex items-start gap-4 p-4 hover:bg-[#faf8ff] transition-colors border-b cursor-pointer relative"
                             style={{
                                 backgroundColor: !noti.is_read ? '#f8fafc' : 'white',
-                                borderColor: '#bec9c3'
+                                borderColor: '#e2e8f0'
                             }}
                         >
                             <NotiIcon type={noti.type} />
                             <div className="flex-1">
                                 <div className="flex items-center justify-between mb-1">
-                                    <h4 className={`text-[14px] font-bold ${!noti.is_read ? 'text-[#181d1a]' : 'text-[#6f7a74]'}`}>
+                                    <h4 className={`text-[14px] font-bold ${!noti.is_read ? 'text-[#0c1a3a]' : 'text-[#737686]'}`}>
                                         {noti.title}
                                     </h4>
-                                    <span className="text-[11.5px] text-[#6f7a74]">{formatTime(noti.created_at)}</span>
+                                    <span className="text-[11.5px] text-[#737686]">{formatTime(noti.created_at)}</span>
                                 </div>
-                                <p className={`text-[14px] ${!noti.is_read ? 'text-[#3f4944]' : 'text-[#6f7a74]'}`}>
+                                <p className={`text-[14px] ${!noti.is_read ? 'text-[#434655]' : 'text-[#737686]'}`}>
                                     {noti.body}
                                 </p>
                             </div>
@@ -192,11 +192,11 @@ const Notifications = () => {
                                 <div className="flex flex-col items-center gap-2">
                                     <div
                                         className="w-2 h-2 rounded-full"
-                                        style={{ backgroundColor: '#005440' }}
+                                        style={{ backgroundColor: '#003b9e' }}
                                     />
                                     <button
                                         onClick={(e) => { e.stopPropagation(); markAsRead(noti.noti_id); }}
-                                        className="opacity-0 group-hover:opacity-100 p-1 text-[#6f7a74] hover:text-[#005440] transition-all"
+                                        className="opacity-0 group-hover:opacity-100 p-1 text-[#737686] hover:text-[#003b9e] transition-all"
                                         title="Đánh dấu đã đọc"
                                     >
                                         <Check style={{ width: 20, height: 20 }} />
@@ -208,7 +208,7 @@ const Notifications = () => {
                                     <div className="w-2 h-2 rounded-full bg-transparent" />
                                     <button
                                         onClick={(e) => { e.stopPropagation(); }}
-                                        className="opacity-0 group-hover:opacity-100 p-1 text-[#6f7a74] hover:text-[#ba1a1a] transition-all"
+                                        className="opacity-0 group-hover:opacity-100 p-1 text-[#737686] hover:text-[#ba1a1a] transition-all"
                                         title="Xóa"
                                     >
                                         <Info style={{ width: 20, height: 20 }} />
@@ -220,18 +220,18 @@ const Notifications = () => {
                 )}
 
                 {/* Pagination */}
-                <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#bec9c3', backgroundColor: '#f8fafc' }}>
-                    <p className="text-[14px] text-[#6f7a74]">
+                <div className="flex items-center justify-between px-6 py-4 border-t" style={{ borderColor: '#e2e8f0', backgroundColor: '#f8fafc' }}>
+                    <p className="text-[14px] text-[#737686]">
                         Hiển thị {Math.min((page - 1) * LIMIT + 1, filtered.length)} - {Math.min(page * LIMIT, filtered.length)} trên {filtered.length} thông báo
                     </p>
                     <div className="flex items-center gap-1">
                         <button
                             onClick={() => setPage(p => Math.max(1, p - 1))}
                             disabled={page === 1}
-                            className="w-10 h-10 rounded-lg border hover:bg-[#ebefeb] disabled:opacity-30 transition-colors flex items-center justify-center"
-                            style={{ borderColor: '#bec9c3' }}
+                            className="w-10 h-10 rounded-lg border hover:bg-[#f1f4fb] disabled:opacity-30 transition-colors flex items-center justify-center"
+                            style={{ borderColor: '#e2e8f0' }}
                         >
-                            <span style={{ color: '#6f7a74' }}>‹</span>
+                            <span style={{ color: '#737686' }}>‹</span>
                         </button>
                         {[1, 2, 3].map(p => (
                             <button
@@ -239,8 +239,8 @@ const Notifications = () => {
                                 onClick={() => setPage(p)}
                                 className="w-10 h-10 rounded-lg text-[14px] font-semibold flex items-center justify-center transition-colors"
                                 style={page === p
-                                    ? { backgroundColor: '#0f6e56', color: 'white' }
-                                    : { border: '1px solid #bec9c3', color: '#6f7a74' }
+                                    ? { backgroundColor: '#004ac6', color: 'white' }
+                                    : { border: '1px solid #e2e8f0', color: '#737686' }
                                 }
                             >
                                 {p}
@@ -249,10 +249,10 @@ const Notifications = () => {
                         <button
                             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                             disabled={page === totalPages}
-                            className="w-10 h-10 rounded-lg border hover:bg-[#ebefeb] disabled:opacity-30 transition-colors flex items-center justify-center"
-                            style={{ borderColor: '#bec9c3' }}
+                            className="w-10 h-10 rounded-lg border hover:bg-[#f1f4fb] disabled:opacity-30 transition-colors flex items-center justify-center"
+                            style={{ borderColor: '#e2e8f0' }}
                         >
-                            <span style={{ color: '#6f7a74' }}>›</span>
+                            <span style={{ color: '#737686' }}>›</span>
                         </button>
                     </div>
                 </div>

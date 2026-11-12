@@ -82,7 +82,7 @@ const Sparkline = ({ data, color = 'rgba(255,255,255,0.35)', width = 80, height 
   return <svg width={width} height={height}><polyline points={points} fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>;
 };
 
-const MiniSparkline = ({ data, color = '#1a6b5a' }) => {
+const MiniSparkline = ({ data, color = '#1e40af' }) => {
   const width = 36;
   const height = 14;
   const max = Math.max(...data);
@@ -130,7 +130,7 @@ const DropdownFilter = ({ label, value, options, onChange }) => {
         <span className={value ? 'text-[#1e293b]' : 'text-[#94a3b8]'}>{value || label}</span>
         <ChevronDown size={14} className={`text-[#94a3b8] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      {isOpen && <div className="absolute left-0 top-full z-50 mt-1 w-48 rounded-lg border border-[#e2e8f0] bg-white py-1 shadow-xl"><button onClick={() => { onChange(''); setIsOpen(false); }} className="w-full px-4 py-2 text-left text-sm text-[#94a3b8] transition-colors hover:bg-gray-50">Tất cả</button>{options.map(opt => <button key={opt.value} onClick={() => { onChange(opt.value); setIsOpen(false); }} className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50 ${value === opt.value ? 'bg-[#f0fdf9] font-medium text-[#1a6b5a]' : 'text-[#1e293b]'}`}>{opt.label}</button>)}</div>}
+      {isOpen && <div className="absolute left-0 top-full z-50 mt-1 w-48 rounded-lg border border-[#e2e8f0] bg-white py-1 shadow-xl"><button onClick={() => { onChange(''); setIsOpen(false); }} className="w-full px-4 py-2 text-left text-sm text-[#94a3b8] transition-colors hover:bg-gray-50">Tất cả</button>{options.map(opt => <button key={opt.value} onClick={() => { onChange(opt.value); setIsOpen(false); }} className={`w-full px-4 py-2 text-left text-sm transition-colors hover:bg-gray-50 ${value === opt.value ? 'bg-[#f0fdf9] font-medium text-[#1e40af]' : 'text-[#1e293b]'}`}>{opt.label}</button>)}</div>}
     </div>
   );
 };
@@ -166,7 +166,7 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-md">
       <div className="w-full max-w-4xl overflow-hidden rounded-[28px] bg-white shadow-[0_30px_80px_rgba(15,23,42,0.35)]">
-        <div className="border-b border-slate-200 bg-gradient-to-r from-[#0f6e56] via-[#1a6b5a] to-[#3aa882] px-6 py-5 text-white">
+        <div className="border-b border-slate-200 bg-gradient-to-r from-[#004ac6] via-[#1e40af] to-[#3aa882] px-6 py-5 text-white">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/75">Gia hạn tin đăng</p>
@@ -185,7 +185,7 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
                 <select
                   value={plan}
                   onChange={(e) => setPlan(e.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition-colors focus:border-[#0f6e56]"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition-colors focus:border-[#004ac6]"
                 >
                   {planOptions.map((p) => (
                     <option key={p.id} value={p.id}>
@@ -205,7 +205,7 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
                 <select
                   value={days}
                   onChange={(e) => setDays(Number(e.target.value))}
-                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition-colors focus:border-[#0f6e56]"
+                  className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-900 outline-none transition-colors focus:border-[#004ac6]"
                 >
                   {[7, 15, 30, 60].map((d) => <option key={d} value={d}>{d} ngày</option>)}
                 </select>
@@ -228,7 +228,7 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
                 <div className="mt-3 space-y-2 text-sm text-slate-700">
                   <div className="flex justify-between"><span>Phí gói</span><strong>{formatMoney(planFee)} đ</strong></div>
                   <div className="flex justify-between"><span>Tiền theo ngày</span><strong>{formatMoney(basePerDay * days)} đ</strong></div>
-                  <div className="flex justify-between border-t border-slate-200 pt-2 text-base"><span>Tổng cộng</span><strong className="text-[#0f6e56]">{formatMoney(total)} đ</strong></div>
+                  <div className="flex justify-between border-t border-slate-200 pt-2 text-base"><span>Tổng cộng</span><strong className="text-[#004ac6]">{formatMoney(total)} đ</strong></div>
                   <div className="flex justify-between rounded-2xl bg-slate-50 px-3 py-2"><span className="text-slate-500">Số dư ví</span><strong className={walletBalance >= total ? 'text-emerald-600' : 'text-red-500'}>{formatMoney(walletBalance)} đ</strong></div>
                 </div>
               </div>
@@ -236,7 +236,7 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
 
             <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button onClick={onClose} className="rounded-2xl border border-[#e2e8f0] px-5 py-3 font-semibold text-[#334155] transition-colors hover:bg-slate-50">Hủy</button>
-              <button onClick={() => setStep('confirm')} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#0f6e56] px-5 py-3 font-semibold text-white shadow-lg shadow-[#0f6e56]/15 transition-all hover:translate-y-[-1px] hover:bg-[#0d5e49]"><BadgeCheck size={16} /> Tiếp tục xác nhận</button>
+              <button onClick={() => setStep('confirm')} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#004ac6] px-5 py-3 font-semibold text-white shadow-lg shadow-[#004ac6]/15 transition-all hover:translate-y-[-1px] hover:bg-[#0d5e49]"><BadgeCheck size={16} /> Tiếp tục xác nhận</button>
             </div>
           </div>
         ) : (
@@ -258,13 +258,13 @@ const RenewalModal = ({ isOpen, onClose, listing, onConfirm, plans = [], walletB
                 <div className="mt-4 space-y-3 text-sm text-slate-700">
                   <div className="flex justify-between"><span>Phí gói</span><strong>{formatMoney(planFee)} đ</strong></div>
                   <div className="flex justify-between"><span>Tiền theo ngày</span><strong>{formatMoney(basePerDay * days)} đ</strong></div>
-                  <div className="flex justify-between border-t border-slate-200 pt-2 text-base"><span>Tổng cộng</span><strong className="text-[#0f6e56]">{formatMoney(total)} đ</strong></div>
+                  <div className="flex justify-between border-t border-slate-200 pt-2 text-base"><span>Tổng cộng</span><strong className="text-[#004ac6]">{formatMoney(total)} đ</strong></div>
                   <div className="flex justify-between rounded-2xl bg-slate-50 px-3 py-2"><span className="text-slate-500">Số dư ví hiện tại</span><strong className={walletBalance >= total ? 'text-emerald-600' : 'text-red-500'}>{formatMoney(walletBalance)} đ</strong></div>
                   <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-3 text-xs text-slate-500">Sau khi xác nhận, hệ thống mới trừ ví và cộng thêm thời hạn hiển thị cho tin.</div>
                 </div>
               </div>
             </div>
-            <div className="flex justify-end gap-3"><button onClick={() => setStep('choose')} className="rounded-2xl border border-[#e2e8f0] px-5 py-3 font-semibold text-[#334155] transition-colors hover:bg-slate-50">Quay lại</button><button onClick={() => onConfirm({ plan, days, total })} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-600/15 transition-all hover:translate-y-[-1px] hover:bg-emerald-700"><RotateCw size={16} /> Xác nhận & Thanh toán</button></div>
+            <div className="flex justify-end gap-3"><button onClick={() => setStep('choose')} className="rounded-2xl border border-[#e2e8f0] px-5 py-3 font-semibold text-[#334155] transition-colors hover:bg-slate-50">Quay lại</button><button onClick={() => onConfirm({ plan, days, total })} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-700 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-700/15 transition-all hover:translate-y-[-1px] hover:bg-blue-800"><RotateCw size={16} /> Xác nhận & Thanh toán</button></div>
           </div>
         )}
       </div>
@@ -562,21 +562,21 @@ const Listings = () => {
   if (loading) return <div className="flex min-h-[400px] items-center justify-center"><Spinner size="lg" /></div>;
 
   return (
-    <div className="min-h-screen bg-[#f7faf6] pb-20 font-['Be_Vietnam_Pro',sans-serif]">
+    <div className="min-h-screen bg-[#faf8ff] pb-20 font-['Be_Vietnam_Pro',sans-serif]">
       <div className="mx-auto max-w-[1400px] px-4 pt-20 md:px-6">
         <div className="mb-6 flex items-end justify-between">
           <div>
-            <p className="mb-1 text-[11.5px] font-semibold uppercase tracking-wider text-[#6f7a74]">Quảng cáo</p>
-            <h1 className="text-[24px] font-semibold leading-8 text-[#181d1a]">Tin đăng của tôi</h1>
+            <p className="mb-1 text-[11.5px] font-semibold uppercase tracking-wider text-[#737686]">Quảng cáo</p>
+            <h1 className="text-[24px] font-semibold leading-8 text-[#0c1a3a]">Tin đăng của tôi</h1>
           </div>
-          <button onClick={() => setIsSelectRoomOpen(true)} className="flex items-center gap-2 rounded-lg bg-[#0f6e56] px-4 py-2 text-sm font-semibold text-white transition-all hover:opacity-90"><Plus size={16} /> Thêm tin đăng mới</button>
+          <button onClick={() => setIsSelectRoomOpen(true)} className="flex items-center gap-2 rounded-lg bg-[#004ac6] px-4 py-2 text-sm font-semibold text-white transition-all hover:opacity-90"><Plus size={16} /> Thêm tin đăng mới</button>
         </div>
 
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="rounded-[14px] border border-[#bec9c3] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#3f4944]">Tổng tin</span><div className="rounded-lg bg-[#ebefeb] p-2"><Building2 size={18} className="text-[#0f6e56]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#181d1a]">{stats.totalListings}</p><p className="text-[11.5px] text-[#6f7a74]">Đang quản lý</p></div>
-          <div className="rounded-[14px] border border-[#bec9c3] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#3f4944]">Hoạt động</span><div className="rounded-lg bg-[#e6f7f2] p-2"><BadgeCheck size={18} className="text-[#0f6e56]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#181d1a]">{stats.activeListings}</p><p className="text-[11.5px] text-[#6f7a74]">Đang hiển thị</p></div>
-          <div className="rounded-[14px] border border-[#bec9c3] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#3f4944]">Lịch hẹn</span><div className="rounded-lg bg-[#eef2ff] p-2"><Calendar size={18} className="text-[#4f46e5]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#181d1a]">{stats.totalBookings}</p><p className="text-[11.5px] text-[#6f7a74]">{stats.totalConfirmed} đã xác nhận</p></div>
-          <div className="rounded-[14px] border border-[#bec9c3] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#3f4944]">Lượt xem</span><div className="rounded-lg bg-[#fffbeb] p-2"><Eye size={18} className="text-[#f59e0b]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#181d1a]">{stats.totalViews.toLocaleString()}</p><p className="text-[11.5px] text-[#6f7a74]">Tỷ lệ chuyển đổi {stats.conversionRate}%</p></div>
+          <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#434655]">Tổng tin</span><div className="rounded-lg bg-[#f1f4fb] p-2"><Building2 size={18} className="text-[#004ac6]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#0c1a3a]">{stats.totalListings}</p><p className="text-[11.5px] text-[#737686]">Đang quản lý</p></div>
+          <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#434655]">Hoạt động</span><div className="rounded-lg bg-[#eff4ff] p-2"><BadgeCheck size={18} className="text-[#004ac6]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#0c1a3a]">{stats.activeListings}</p><p className="text-[11.5px] text-[#737686]">Đang hiển thị</p></div>
+          <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#434655]">Lịch hẹn</span><div className="rounded-lg bg-[#eef2ff] p-2"><Calendar size={18} className="text-[#4f46e5]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#0c1a3a]">{stats.totalBookings}</p><p className="text-[11.5px] text-[#737686]">{stats.totalConfirmed} đã xác nhận</p></div>
+          <div className="rounded-[14px] border border-[#e2e8f0] bg-white p-4"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#434655]">Lượt xem</span><div className="rounded-lg bg-[#fffbeb] p-2"><Eye size={18} className="text-[#f59e0b]" /></div></div><p className="mt-2 text-[24px] font-semibold text-[#0c1a3a]">{stats.totalViews.toLocaleString()}</p><p className="text-[11.5px] text-[#737686]">Tỷ lệ chuyển đổi {stats.conversionRate}%</p></div>
         </div>
 
         <div className="mb-6 flex items-center justify-between gap-3 rounded-lg border border-[#e8ecf0] bg-white p-3">
@@ -639,12 +639,12 @@ const Listings = () => {
                     </div>
                   </div>
                   <div className="flex-[1] px-3"><p className="text-sm font-bold text-[#3b2870]">{new Intl.NumberFormat('vi-VN').format(item.rent_price)}đ</p></div>
-                  <div className="flex-[1] px-3"><div className="mb-1.5 flex items-center gap-1.5"><ShieldCheck size={12} className="text-[#94a3b8]" /><span className={`text-xs font-medium ${daysLeft > 5 ? 'text-[#1e293b]' : 'text-red-500'}`}>Còn {daysLeft} ngày</span></div><div className="h-1 w-20 overflow-hidden rounded-full bg-gray-100"><div className="h-full rounded-full bg-gradient-to-r from-[#1a6b5a] to-[#3aa882] transition-all duration-300" style={{ width: `${progressPercent}%` }} /></div></div>
-                  <div className="flex-[0.8] px-3 text-center"><div className="flex items-center justify-center"><span className="text-sm font-bold text-[#1e293b]">{item.views?.toLocaleString() || 0}</span><MiniSparkline data={[12, 19, 15, 25, 22]} color="#1a6b5a" /></div><div className="mt-1"><MultiColorProgress values={[item.views || 0, 100, 50]} /></div></div>
+                  <div className="flex-[1] px-3"><div className="mb-1.5 flex items-center gap-1.5"><ShieldCheck size={12} className="text-[#94a3b8]" /><span className={`text-xs font-medium ${daysLeft > 5 ? 'text-[#1e293b]' : 'text-red-500'}`}>Còn {daysLeft} ngày</span></div><div className="h-1 w-20 overflow-hidden rounded-full bg-gray-100"><div className="h-full rounded-full bg-gradient-to-r from-[#1e40af] to-[#3aa882] transition-all duration-300" style={{ width: `${progressPercent}%` }} /></div></div>
+                  <div className="flex-[0.8] px-3 text-center"><div className="flex items-center justify-center"><span className="text-sm font-bold text-[#1e293b]">{item.views?.toLocaleString() || 0}</span><MiniSparkline data={[12, 19, 15, 25, 22]} color="#1e40af" /></div><div className="mt-1"><MultiColorProgress values={[item.views || 0, 100, 50]} /></div></div>
                   <div className="flex-[0.8] px-3 text-center"><div className="flex items-center justify-center"><span className="text-sm font-bold text-[#1e293b]">{item.booking_count || 0}</span><MiniSparkline data={[5, 8, 6, 10, 7]} color="#8b6ec4" /></div><div className="mt-1"><MultiColorProgress values={[confirmed, pending, cancelled]} /></div></div>
-                  <div className="flex-[0.7] px-3 text-center"><span className="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#1a6b5a] text-xs font-bold text-[#1a6b5a]">{confirmed}</span></div>
+                  <div className="flex-[0.7] px-3 text-center"><span className="inline-flex h-7 w-7 items-center justify-center rounded-full border-2 border-[#1e40af] text-xs font-bold text-[#1e40af]">{confirmed}</span></div>
                   <div className="flex-[1] px-3 text-center"><span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${item.status === 'active' ? 'border-[#bbf7d0] bg-[#dcfce7] text-[#16a34a]' : item.status === 'paused' ? 'border-[#fde68a] bg-[#fef3c7] text-[#b45309]' : item.status === 'hidden' ? 'border-red-200 bg-red-50 text-red-600' : item.status === 'locked' ? 'border-red-300 bg-red-100 text-red-800 font-bold' : 'bg-gray-100 text-gray-600'}`}>{item.status === 'active' ? 'HOẠT ĐỘNG' : item.status === 'paused' ? 'TẠM DỪNG' : item.status === 'hidden' ? 'TẠM ẨN' : item.status === 'locked' ? 'BỊ KHÓA' : item.status}</span>{isVIP && <div className="mt-1"><span className="inline-flex items-center gap-0.5 rounded-full bg-[#fef9c3] px-2 py-0.5 text-[10px] font-semibold text-[#b45309]"><Star size={8} fill="currentColor" /> VIP</span></div>}</div>
-                  <div className="flex-[0.7] px-3 text-right"><div className="flex items-center justify-end gap-1"><button onClick={() => handleEdit(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-gray-100 hover:text-[#1a6b5a]" title="Chỉnh sửa"><Pencil size={15} /></button><button onClick={() => handleOpenRenew(item)} disabled={renewingListing === item.listing_id} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-green-50 hover:text-[#0f6e56]" title="Gia hạn"><RotateCw size={15} /></button><button onClick={() => handleDuplicate(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-gray-100 hover:text-[#3b2870]" title="Sao chép"><Copy size={15} /></button><button onClick={() => handleDelete(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-red-50 hover:text-red-500" title="Xóa"><Trash2 size={15} /></button></div></div>
+                  <div className="flex-[0.7] px-3 text-right"><div className="flex items-center justify-end gap-1"><button onClick={() => handleEdit(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-gray-100 hover:text-[#1e40af]" title="Chỉnh sửa"><Pencil size={15} /></button><button onClick={() => handleOpenRenew(item)} disabled={renewingListing === item.listing_id} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-green-50 hover:text-[#004ac6]" title="Gia hạn"><RotateCw size={15} /></button><button onClick={() => handleDuplicate(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-gray-100 hover:text-[#3b2870]" title="Sao chép"><Copy size={15} /></button><button onClick={() => handleDelete(item)} className="rounded-lg p-1.5 text-[#94a3b8] transition-colors hover:bg-red-50 hover:text-red-500" title="Xóa"><Trash2 size={15} /></button></div></div>
                 </div>
               );
             })}
@@ -660,7 +660,7 @@ const Listings = () => {
               <div><h2 className="text-base font-bold text-[#1e293b]">Chọn phòng để đăng tin</h2><p className="mt-0.5 text-xs text-[#94a3b8]">Chỉ hiển thị phòng trống thật từ CSDL</p></div>
               <button onClick={() => setIsSelectRoomOpen(false)} className="rounded-lg p-1.5 transition-colors hover:bg-gray-100"><X size={18} /></button>
             </div>
-            <div className="flex-1 overflow-y-auto p-4">{roomsLoading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : availableRooms.length > 0 ? <div className="grid gap-3">{availableRooms.map(room => <button key={room.room_id} onClick={() => handleRoomSelect(room)} className="flex items-center justify-between rounded-xl border border-[#e2e8f0] px-4 py-4 text-left transition-colors hover:border-[#1a6b5a] hover:bg-[#f6fffb]"><div><p className="font-bold text-[#1e293b]">{room.building_name} · Phòng {room.room_number}</p><p className="mt-1 text-sm text-[#64748b]">Tầng {room.floor || 1} · {room.area || 0}m² · {new Intl.NumberFormat('vi-VN').format(room.base_price || 0)}đ/tháng</p></div><div className="rounded-full bg-[#ecfdf5] px-3 py-1.5 text-xs font-semibold text-[#1a6b5a]">Trống</div></button>)}</div> : <div className="py-12 text-center text-[#94a3b8]"><p className="font-medium">Chưa có phòng trống để đăng tin</p><p className="mt-1 text-sm">Hãy tạo hoặc chuyển trạng thái phòng sang trống trong quản lý tòa nhà.</p></div>}</div>
+            <div className="flex-1 overflow-y-auto p-4">{roomsLoading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : availableRooms.length > 0 ? <div className="grid gap-3">{availableRooms.map(room => <button key={room.room_id} onClick={() => handleRoomSelect(room)} className="flex items-center justify-between rounded-xl border border-[#e2e8f0] px-4 py-4 text-left transition-colors hover:border-[#1e40af] hover:bg-[#f6fffb]"><div><p className="font-bold text-[#1e293b]">{room.building_name} · Phòng {room.room_number}</p><p className="mt-1 text-sm text-[#64748b]">Tầng {room.floor || 1} · {room.area || 0}m² · {new Intl.NumberFormat('vi-VN').format(room.base_price || 0)}đ/tháng</p></div><div className="rounded-full bg-[#ecfdf5] px-3 py-1.5 text-xs font-semibold text-[#1e40af]">Trống</div></button>)}</div> : <div className="py-12 text-center text-[#94a3b8]"><p className="font-medium">Chưa có phòng trống để đăng tin</p><p className="mt-1 text-sm">Hãy tạo hoặc chuyển trạng thái phòng sang trống trong quản lý tòa nhà.</p></div>}</div>
           </div>
         </div>
       )}

@@ -465,9 +465,10 @@ const RoomDetail = () => {
                             { id: '12', name: 'Căn hộ dịch vụ' },
                             { id: '5', name: 'Ở ghép' },
                             { id: '4', name: 'Mặt bằng' },
-                            { id: 'pricing', name: 'Bảng giá dịch vụ' }
-                        ].map(cat => {
-                            const targetUrl = cat.id === 'pricing' 
+                            { id: 'pricing', name: 'Bảng giá dịch vụ' },
+              { id: 'roommates', name: 'Tìm bạn cùng phòng' }
+                        ].filter(cat => cat.id !== 'roommates' || user?.role === 'tenant').map(cat => {
+                            const targetUrl = cat.id === 'roommates' ? '/tenant/roommates' : cat.id === 'pricing' 
                                 ? '/services-price' 
                                 : `/tenant/discover?category=${cat.id}`;
                             return (

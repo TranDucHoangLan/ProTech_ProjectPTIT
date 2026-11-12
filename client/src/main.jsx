@@ -120,7 +120,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               }
             >
               <Route path="dashboard" element={<TenantDashboard />} />
-              <Route path="roommates" element={<RoommateMatching />} />
+
               <Route path="room/:id" element={<RoomDetail />} />
               <Route path="bookings" element={<MyBookings />} />
               <Route path="contract/:id" element={<ContractSigning />} />
@@ -134,6 +134,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
             {/* DiscoverRooms — public route */}
             <Route path="/tenant/discover" element={<DiscoverRooms />} />
+            <Route path="/tenant/roommates" element={<ProtectedRoute allowedRoles={['tenant']}><RoommateMatching /></ProtectedRoute>} />
             <Route path="/services-price" element={<ServicesPrice />} />
             <Route path="/tenant/services-price" element={<ServicesPrice />} />
 

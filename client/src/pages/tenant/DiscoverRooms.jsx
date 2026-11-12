@@ -656,14 +656,19 @@ const DiscoverRooms = () => {
               { id: '12', name: 'Căn hộ dịch vụ' },
               { id: '5', name: 'Ở ghép' },
               { id: '4', name: 'Mặt bằng' },
-              { id: 'pricing', name: 'Bảng giá dịch vụ' }
-            ].map(cat => {
+              { id: 'pricing', name: 'Bảng giá dịch vụ' },
+              { id: 'roommates', name: 'Tìm bạn cùng phòng' }
+            ].filter(cat => cat.id !== 'roommates' || user?.role === 'tenant').map(cat => {
               const isActive = selectedCategory === cat.id;
               return (
                 <button
                   key={cat.id}
                   type="button"
                   onClick={() => {
+                    if (cat.id === 'roommates') {
+                      navigate('/tenant/roommates');
+                      return;
+                    }
                     if (cat.id === 'pricing') {
                       navigate('/services-price');
                       return;
